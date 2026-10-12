@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en" data-size="1">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Able Cursor: Your computer. Your control.</title>
+<meta name="description" content="Able Cursor: free hands-free computer control using gaze, voice and scanning on a normal webcam. Built for people with cerebral palsy, ALS and spinal cord injury.">
+<meta property="og:title" content="Able Cursor: hands-free computer control"><meta property="og:type" content="website">
+<link rel="canonical" href="https://YOURUSERNAME.github.io/able-cursor/">
+<style>
+/* ---------- tokens and settings classes ---------- */
+:root{--bg:#fdfcfb;--fg:#1a1a2e;--mut:#3d3d55;--card:#fff;--line:#cfdad6;--sky:#4fc3f7;--tq:#3ec8c8;--co:#ff7f6e;--sun:#ffd166;--lav:#c7b8f0;--mint:#c2f0d8;--btn:#1f6468;--btnfg:#fff;--sh:0 10px 30px rgba(26,26,46,.1)}
+html{font-size:100%;scroll-behavior:smooth}html[data-size="2"]{font-size:120%}html[data-size="3"]{font-size:140%}
+html.hc{--bg:#fff;--fg:#000;--mut:#000;--card:#fff;--line:#000;--btn:#000;--btnfg:#fff;--sh:none}
+html.hc .card,html.hc .zone,html.hc .mode,html.hc .pan{background:#fff!important;border:3px solid #000!important}
+html.rm *,html.rm{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+html.lg .btn{min-height:3.8rem;padding:1rem 1.8rem;font-size:1.2rem}html.lg .zone{min-height:7.5rem}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:1rem/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+h1,h2,h3{line-height:1.15;margin:0 0 .6rem}h1{font-size:clamp(2.3rem,6vw,4rem)}h2{font-size:clamp(1.7rem,4vw,2.4rem)}h3{font-size:1.25rem}
+p{margin:.4rem 0 .8rem}a{color:var(--btn)}
+:focus-visible{outline:4px solid #1a1a2e;box-shadow:0 0 0 8px #ffd166;border-radius:.4rem}
+html.hc :focus-visible{outline-color:#000;box-shadow:0 0 0 8px #ff0}
+.skip{position:absolute;left:-999px;top:.5rem;background:var(--btn);color:var(--btnfg);padding:.8rem 1rem;z-index:99;border-radius:.5rem}.skip:focus{left:.5rem}
+.w{max-width:70rem;margin:0 auto;padding:0 1.25rem}section{padding:4rem 0}
+.k{font-weight:700;letter-spacing:.04em;font-size:.9rem;text-transform:uppercase}
+/* ---------- header ---------- */
+header{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:2px solid var(--line)}
+header .w{display:flex;flex-wrap:wrap;gap:.4rem 1rem;align-items:center;justify-content:space-between;padding-top:.6rem;padding-bottom:.6rem}
+.logo{display:flex;align-items:center;gap:.6rem;font-weight:800;font-size:1.25rem;color:var(--fg);text-decoration:none}
+nav ul{display:flex;flex-wrap:wrap;gap:.2rem .3rem;list-style:none;margin:0;padding:0}
+nav a{display:block;padding:.6rem .9rem;border-radius:999px;font-weight:600;color:var(--fg);text-decoration:none;min-height:2.75rem}nav a:hover{background:var(--mint)}
+/* ---------- buttons and cards ---------- */
+.btn{display:inline-flex;align-items:center;gap:.5rem;min-height:3rem;padding:.7rem 1.3rem;border-radius:999px;border:3px solid var(--btn);background:var(--btn);color:var(--btnfg);font:700 1rem/1.2 system-ui,sans-serif;cursor:pointer;text-decoration:none;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}.btn.o{background:transparent;color:var(--btn)}.btn.co{background:var(--co);border-color:var(--co);color:#1a1a2e}
+.btn:disabled{opacity:.5;cursor:not-allowed}.row{display:flex;flex-wrap:wrap;gap:.7rem;margin:1rem 0}
+.g{display:grid;gap:1.1rem;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr))}
+.card{background:var(--t,var(--card));border:2px solid var(--line);border-radius:1.5rem;padding:1.4rem;box-shadow:var(--sh);transition:transform .2s}.card:hover{transform:translateY(-3px)}
+.c1{--t:var(--sky)}.c2{--t:var(--mint)}.c3{--t:var(--sun)}.c4{--t:var(--lav)}.c5{--t:#ffd3cc}
+.ic{font-size:2rem;display:block;margin-bottom:.3rem}
+.pill{display:inline-block;background:var(--sun);color:#1a1a2e;border:2px solid #1a1a2e;border-radius:999px;padding:.2rem .8rem;font-weight:700;font-size:.9rem}
+.alt{background:var(--paper2,#eef7f4)}html.hc .alt{background:#fff}
+/* ---------- hero ---------- */
+.hero{display:grid;gap:2rem;grid-template-columns:repeat(auto-fit,minmax(18rem,1fr));align-items:center}
+.hero svg{width:100%;height:auto;max-width:30rem;margin:auto;display:block}
+.fl{animation:fl 6s ease-in-out infinite}@keyframes fl{50%{transform:translateY(-8px)}}
+/* ---------- demo ---------- */
+.modes{display:grid;gap:.8rem;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));margin:1rem 0}
+.mode{font:700 1rem system-ui,sans-serif;text-align:left;padding:1rem;border-radius:1.2rem;border:3px solid var(--line);background:var(--card);color:var(--fg);cursor:pointer;min-height:4.5rem}
+.mode[aria-pressed="true"]{background:var(--sun);border-color:#1a1a2e}.mode[aria-pressed="true"]::after{content:" (selected)"}
+.pan{background:var(--card);border:2px solid var(--line);border-radius:1.2rem;padding:1.1rem;margin:.8rem 0}
+.zones{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin:1rem 0}
+.zone{min-height:5.5rem;border-radius:1rem;border:3px solid var(--line);background:var(--card);font:700 1rem system-ui,sans-serif;color:var(--fg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.15rem;cursor:pointer;padding:.4rem}
+.zone span{font-size:1.6rem}.zone.gz{border:4px dashed var(--co)}.zone.gz::after{content:"Looking here"}
+.zone.sc{background:var(--sun);border:4px solid #1a1a2e}.zone.sc::after{content:"Highlighted"}.zone::after{font-size:.8rem;font-weight:600}
+#status{font-weight:700;padding:.8rem 1rem;border-left:8px solid var(--tq);background:var(--card);border-radius:.5rem;min-height:3.2rem}
+#dlg{border:4px solid #1a1a2e;background:var(--sun);color:#1a1a2e;border-radius:1.2rem;padding:1.1rem;margin:1rem 0}#dlg[hidden]{display:none}
+select,input[type=text],textarea{font:1rem system-ui,sans-serif;padding:.7rem;min-height:2.9rem;border:3px solid var(--line);border-radius:.7rem;background:#fff;color:#1a1a2e;width:100%;max-width:100%}
+html.hc select,html.hc input,html.hc textarea{border-color:#000}
+label{font-weight:700;display:block;margin:.6rem 0 .2rem}.inl{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}.inl select{width:auto}
+.err{color:#a3261a;font-weight:700}html.hc .err{color:#000}input[aria-invalid=true],textarea[aria-invalid=true]{border-color:#a3261a;border-width:4px}
+.tg{display:flex;align-items:center;gap:.8rem;min-height:3rem;font-weight:700;margin:.2rem 0}.tg input{width:1.6rem;height:1.6rem}
+.seg{display:flex;flex-wrap:wrap;gap:.5rem}.seg .btn[aria-pressed="true"]{background:var(--sun);color:#1a1a2e;border-color:#1a1a2e}
+ol.log{padding-left:1.3rem;margin:.4rem 0}
+footer{background:#1a1a2e;color:#fff;padding:2.5rem 0}footer a{color:#ffd166}footer .logo{color:#fff}html.hc footer{background:#000}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<header><div class="w">
+<a class="logo" href="#top" aria-label="Able Cursor home"><svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#4fc3f7"/><circle cx="24" cy="16" r="9" fill="#ffd166" stroke="#1a1a2e" stroke-width="2.5"/><path d="M11 9l4 21 4-8 8-3z" fill="#1a1a2e" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg>Able Cursor</a>
+<nav aria-label="Main"><ul><li><a href="#how">How it works</a></li><li><a href="#demo">Demo</a></li><li><a href="#settings">Accessibility</a></li><li><a href="#about">About</a></li><li><a href="#contact">Feedback</a></li></ul></nav>
+</div></header>
+<main id="main">
+<section id="top"><div class="w hero">
+<div>
+<p class="k">The mind was never the problem. The interface was.</p>
+<h1>Your computer. Your control.</h1>
+<p style="font-size:1.25rem" data-s="Able Cursor is a new way to use a computer. You do not need to use your hands. You do not need to speak clearly.">Able Cursor explores ways to control a computer without relying on hand movements or clear speech, using a normal webcam and microphone.</p>
+<div class="row"><a class="btn" href="#how">Explore How It Works</a><a class="btn co" href="#demo">Try the Demo</a><a class="btn o" href="#settings">Accessibility Settings</a></div>
+<p><a href="app.html"><strong>Open the voice and gaze tool</strong></a> or <a href="gaze.html"><strong>try Gaze Mode (control the page with your eyes)</strong></a>. Chrome or Edge on a laptop.</p>
+<p class="pill">Hackathon prototype, not a medical device</p>
+</div>
+<svg viewBox="0 0 400 320" role="img" aria-label="Illustration: a laptop screen split into nine zones, with an eye, a microphone, a scanning light and a key floating around it">
+<rect x="70" y="60" width="260" height="170" rx="16" fill="#fff" stroke="#1a1a2e" stroke-width="5"/>
+<g stroke="#1a1a2e" stroke-width="3"><rect x="85" y="75" width="72" height="44" rx="8" fill="#c2f0d8"/><rect x="164" y="75" width="72" height="44" rx="8" fill="#ffd166"/><rect x="243" y="75" width="72" height="44" rx="8" fill="#c7b8f0"/><rect x="85" y="125" width="72" height="44" rx="8" fill="#ffd3cc"/><rect x="164" y="125" width="72" height="44" rx="8" fill="#ff7f6e"/><rect x="243" y="125" width="72" height="44" rx="8" fill="#4fc3f7"/><rect x="85" y="175" width="72" height="44" rx="8" fill="#c2f0d8"/><rect x="164" y="175" width="72" height="44" rx="8" fill="#4fc3f7"/><rect x="243" y="175" width="72" height="44" rx="8" fill="#ffd166"/></g>
+<path d="M40 250h320l-20 28H60z" fill="#3ec8c8" stroke="#1a1a2e" stroke-width="5" stroke-linejoin="round"/>
+<g class="fl"><circle cx="60" cy="40" r="28" fill="#fff" stroke="#1a1a2e" stroke-width="4"/><text x="60" y="50" font-size="28" text-anchor="middle">👁️</text></g>
+<g class="fl" style="animation-delay:-2s"><circle cx="345" cy="45" r="28" fill="#fff" stroke="#1a1a2e" stroke-width="4"/><text x="345" y="55" font-size="28" text-anchor="middle">🎙️</text></g>
+<g class="fl" style="animation-delay:-4s"><circle cx="365" cy="190" r="26" fill="#fff" stroke="#1a1a2e" stroke-width="4"/><text x="365" y="199" font-size="26" text-anchor="middle">⌨️</text></g>
+</svg>
+</div></section>
+
+<section class="alt" aria-labelledby="vh"><div class="w">
+<h2 id="vh">Four things we care about</h2>
+<div class="g">
+<article class="card c1"><span class="ic" aria-hidden="true">🌟</span><h3>Independence</h3><p>Choose the way that suits you: gaze, voice, scanning, or a single blink or key.</p></article>
+<article class="card c2"><span class="ic" aria-hidden="true">🪙</span><h3>Affordability</h3><p>The goal is to work with an ordinary webcam and microphone, with no special hardware.</p></article>
+<article class="card c3"><span class="ic" aria-hidden="true">♿</span><h3>Accessibility</h3><p>Large targets, strong contrast, full keyboard use, and settings you control.</p></article>
+<article class="card c4"><span class="ic" aria-hidden="true">🔒</span><h3>Privacy</h3><p>The real tool processes camera images on your device and does not store them. Chrome's speech recognition may send audio to Google.</p></article>
+</div></div></section>
+
+<section id="how" aria-labelledby="hh"><div class="w">
+<h2 id="hh">How it works</h2>
+<p>Four ways in. Any one of them is enough. Every action asks you to confirm.</p>
+<div class="g">
+<article class="card c1"><span class="ic" aria-hidden="true">👁️</span><h3>Gaze control</h3><p data-s="The camera guesses where you look. It picks one big part of the screen.">A compatible webcam estimates where you are looking and picks one of nine large screen zones.</p><p><strong>How:</strong> sit facing the camera, look at a zone.</p><button class="btn o" data-demo="gaze">Demo this mode</button></article>
+<article class="card c3"><span class="ic" aria-hidden="true">🎙️</span><h3>Voice control</h3><p data-s="Say a short command. Example: Hey Cursor, open Chrome.">Say a supported command such as "Hey Cursor, open Chrome". English works now; Hindi and Tamil are planned where available.</p><p><strong>How:</strong> say "Hey Cursor", then the command.</p><button class="btn o" data-demo="voice">Demo this mode</button></article>
+<article class="card c2"><span class="ic" aria-hidden="true">🔦</span><h3>Scanning mode</h3><p data-s="The computer lights up choices one by one. You pick one when it lights up.">The computer highlights options one at a time, so you can choose without any precise movement.</p><p><strong>How:</strong> wait for the highlight, then select.</p><button class="btn o" data-demo="scan">Demo this mode</button></article>
+<article class="card c4"><span class="ic" aria-hidden="true">⌨️</span><h3>Single blink or key</h3><p data-s="One blink or one key press picks the lit choice.">One deliberate blink or any single key press selects the highlighted item, where technically supported.</p><p><strong>How:</strong> blink once, or press Space.</p><button class="btn o" data-demo="blink">Demo this mode</button></article>
+</div>
+<div class="pan" style="margin-top:1.5rem"><h3>Gaze and voice check each other</h3>
+<ul><li><strong>They agree:</strong> it goes ahead, after your confirmation.</li><li><strong>They disagree:</strong> it asks "Did you mean A or B?" It never guesses.</li><li><strong>One is missing:</strong> the other one carries it.</li></ul></div>
+</div></section>
+
+<section id="demo" class="alt" aria-labelledby="dh"><div class="w">
+<h2 id="dh" tabindex="-1">Interactive demo</h2>
+<p class="pill">Simulation: no camera, microphone or blink detection is used in this section</p>
+<p>Use a mouse, touch or keyboard. For the real thing, open <a href="app.html">the camera and microphone tool</a>.</p>
+<div class="modes" role="group" aria-label="Choose a demo mode">
+<button class="mode" data-m="gaze" aria-pressed="true">👁️ Gaze<br><small>Click a zone to simulate looking</small></button>
+<button class="mode" data-m="voice" aria-pressed="false">🎙️ Voice<br><small>Type a command</small></button>
+<button class="mode" data-m="scan" aria-pressed="false">🔦 Scanning<br><small>Highlights zones in turn</small></button>
+<button class="mode" data-m="blink" aria-pressed="false">⌨️ Blink or key<br><small>One press selects</small></button>
+</div>
+<div id="status" role="status" aria-live="polite">Demo mode: gaze. Waiting for selection.</div>
+<div id="dlg" role="alertdialog" aria-labelledby="dt" hidden><h3 id="dt"></h3><p id="dp"></p><div class="row" id="db"></div></div>
+<div class="zones" id="zones" role="group" aria-label="Nine screen zones"></div>
+<div class="pan" id="p-gaze"><strong>Gaze mode.</strong> Click or press Enter on a zone. This stands in for looking at it. The dashed zone shows where "gaze" last landed.</div>
+<div class="pan" id="p-voice" hidden><label for="vc">Type what you would say (for example: open mail)</label><div class="inl"><input type="text" id="vc" autocomplete="off" style="flex:1 1 14rem"><button class="btn" id="vs">Send command</button></div><p><small>Tip: pick a zone in Gaze mode first, then say a different app to see the cross-check. Known apps: Mail, Browser, Music, Notes, Photos, Video, Maps, Settings, Help.</small></p></div>
+<div class="pan" id="p-scan" hidden><div class="row"><button class="btn" id="sst">Start</button><button class="btn o" id="spa">Pause</button><button class="btn o" id="sre">Resume</button><button class="btn o" id="ssp">Stop</button><button class="btn co" id="sse">Select highlighted</button></div><div class="inl"><label for="spd" style="margin:0">Speed</label><select id="spd"><option value="4000">Slow (4 s)</option><option value="2500" selected>Medium (2.5 s)</option><option value="1200">Fast (1.2 s)</option></select></div></div>
+<div class="pan" id="p-blink" hidden><button class="btn co" id="bk">Simulate a blink</button> <span>or press Space or Enter. Scanning runs automatically in this mode. This is a button press, not blink detection.</span></div>
+<div class="pan" aria-live="polite"><h3>Result</h3><p id="res">Nothing selected yet. Choose a mode, then pick a zone.</p><ol class="log" id="log" aria-label="Actions so far"></ol></div>
+<div class="row"><button class="btn o" id="rst">Reset demo</button><a class="btn o" href="#top">Back to home</a></div>
+</div></section>
+
+<section id="settings" aria-labelledby="sh"><div class="w">
+<h2 id="sh">Accessibility settings</h2>
+<p>These change this page right now. They are saved in your browser only.</p>
+<div class="g">
+<div class="pan"><h3 id="ts">Text size</h3><div class="seg" role="group" aria-labelledby="ts"><button class="btn o" data-sz="1" aria-pressed="true">Normal</button><button class="btn o" data-sz="2" aria-pressed="false">Large</button><button class="btn o" data-sz="3" aria-pressed="false">Extra large</button></div></div>
+<div class="pan"><h3>Display and motion</h3>
+<label class="tg"><input type="checkbox" id="hc"> High contrast</label><label class="tg"><input type="checkbox" id="rm"> Reduce motion</label><label class="tg"><input type="checkbox" id="lg"> Large buttons</label><label class="tg"><input type="checkbox" id="sl"> Simple language</label>
+<button class="btn co" id="sreset" style="margin-top:.6rem">Reset all settings</button></div>
+<div class="pan"><h3>Keyboard guide</h3><ul><li><strong>Tab</strong> and <strong>Shift+Tab</strong> move between controls.</li><li><strong>Enter</strong> or <strong>Space</strong> presses a button.</li><li><strong>Escape</strong> cancels a confirmation.</li><li>In scanning modes, <strong>Space</strong> or <strong>Enter</strong> selects the highlighted zone.</li></ul></div>
+</div></div></section>
+
+<section id="about" class="alt" aria-labelledby="ah"><div class="w">
+<h2 id="ah">Designed around your abilities, not your limitations.</h2>
+<div class="g">
+<article class="card c5"><h3>The problem</h3><p data-s="Many computers need a mouse and clear speech. Some people can not use these.">Most computers assume a hand on a mouse or a clear voice. People with motor or speech differences can be locked out, even when their minds are fully able.</p></article>
+<article class="card c2"><h3>Who it is for</h3><p>People who cannot reliably use their hands or speak clearly, including people with cerebral palsy, ALS, high spinal cord injury, locked-in syndrome, muscular dystrophy, severe arthritis, or temporary limits. Not everyone with the same diagnosis has the same abilities, so every method works alone or together.</p></article>
+<article class="card c4"><h3>Why affordable matters</h3><p>Assistive technology should not be a luxury. Able Cursor aims to use the webcam and microphone a person already has. It is a prototype, and it will not work for every person or every disability.</p></article>
+</div></div></section>
+
+<section id="contact" aria-labelledby="fh"><div class="w" style="max-width:42rem">
+<h2 id="fh">Feedback</h2>
+<p><strong>This form is a local demo. Nothing you type is sent anywhere.</strong></p>
+<form id="fb" novalidate>
+<div id="sum" class="err" role="alert"></div>
+<label for="fn">Name (optional)</label><input type="text" id="fn" maxlength="60" autocomplete="name">
+<label for="ff">Your feedback (required, at least 10 characters)</label><textarea id="ff" rows="5" aria-describedby="ef"></textarea><div id="ef" class="err"></div>
+<label for="fs">Suggestions (optional)</label><textarea id="fs" rows="3"></textarea>
+<div class="row"><button class="btn" type="submit">Submit feedback</button></div>
+</form>
+<div id="ok" class="pan" tabindex="-1" hidden><h3>Thank you!</h3><p>This was a demo, so your message was not sent anywhere.</p><button class="btn o" id="again">Write another</button></div>
+</div></section>
+</main>
+<footer><div class="w"><a class="logo" href="#top">Able Cursor</a><p>The mind was never the problem. The interface was.</p><p>A hackathon prototype from MISSION'26 Experto Innovatum, VIT Chennai. Not a certified medical device. Built with MediaPipe, an open-source face tracker.</p><p><a href="app.html">Real tool</a> · <a href="#demo">Demo</a> · <a href="#settings">Accessibility</a> · <a href="#contact">Feedback</a></p></div></footer>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+/* ---------- accessibility settings (saved in this browser only) ---------- */
+const D={size:1,hc:false,rm:false,lg:false,simple:false};let S={...D};
+try{Object.assign(S,JSON.parse(localStorage.getItem("ac-settings")||"{}"))}catch(e){}
+function apply(){const h=document.documentElement;h.dataset.size=S.size;h.classList.toggle("hc",S.hc);h.classList.toggle("rm",S.rm);h.classList.toggle("lg",S.lg);
+$$("[data-s]").forEach(e=>{if(!e.dataset.o)e.dataset.o=e.textContent;e.textContent=S.simple?e.dataset.s:e.dataset.o});
+$("#hc").checked=S.hc;$("#rm").checked=S.rm;$("#lg").checked=S.lg;$("#sl").checked=S.simple;$$("[data-sz]").forEach(b=>b.setAttribute("aria-pressed",+b.dataset.sz===+S.size));
+try{localStorage.setItem("ac-settings",JSON.stringify(S))}catch(e){}}
+$$("[data-sz]").forEach(b=>b.onclick=()=>{S.size=+b.dataset.sz;apply()});
+[["hc","hc"],["rm","rm"],["lg","lg"],["sl","simple"]].forEach(([id,k])=>$("#"+id).onchange=e=>{S[k]=e.target.checked;apply()});
+$("#sreset").onclick=()=>{S={...D};apply()};apply();
+/* ---------- demo (simulation only) ---------- */
+const Z=[["Mail","✉️"],["Browser","🌐"],["Music","🎵"],["Notes","📝"],["Photos","🖼️"],["Video","🎬"],["Maps","🗺️"],["Settings","⚙️"],["Help","❓"]];
+let mode="gaze",gzI=null,scI=-1,scT=null,paused=false,pend=null,back=null;
+const zEl=Z.map(([n,i],k)=>{const b=document.createElement("button");b.className="zone";b.type="button";b.setAttribute("aria-label","Zone "+(k+1)+": "+n);b.innerHTML="<span aria-hidden='true'>"+i+"</span>"+n;b.onclick=()=>{if(mode==="gaze"){gzI=k;mark();choose(k,"gaze")}else status("In this mode, use the controls below, not the zones.")};$("#zones").appendChild(b);return b});
+function status(m){$("#status").textContent="Demo mode: "+mode+". "+m}
+function mark(){zEl.forEach((b,k)=>{b.classList.toggle("gz",k===gzI);b.classList.toggle("sc",k===scI)})}
+function setMode(m){stopScan();closeDlg(false);mode=m;$$(".mode").forEach(b=>b.setAttribute("aria-pressed",b.dataset.m===m));["gaze","voice","scan","blink"].forEach(x=>$("#p-"+x).hidden=x!==m);
+if(m==="blink")startScan();status(m==="blink"?"Scanning runs. Press the blink button or Space. Waiting for selection.":"Waiting for selection.")}
+$$(".mode").forEach(b=>b.onclick=()=>setMode(b.dataset.m));
+$$("[data-demo]").forEach(b=>b.onclick=()=>{setMode(b.dataset.demo);const d=$("#dh");d.scrollIntoView();d.focus()});
+function step(){scI=(scI+1)%9;mark()}
+function startScan(){stopScan();scI=-1;paused=false;step();scT=setInterval(step,+$("#spd").value);status("Scanning. Waiting for selection.")}
+function stopScan(){clearInterval(scT);scT=null;scI=-1;paused=false;mark()}
+$("#sst").onclick=startScan;$("#ssp").onclick=()=>{stopScan();status("Scanning stopped.")};
+$("#spa").onclick=()=>{if(scT){clearInterval(scT);scT=null;paused=true;status("Scanning paused.")}};
+$("#sre").onclick=()=>{if(paused&&scI>=0){paused=false;scT=setInterval(step,+$("#spd").value);status("Scanning resumed.")}};
+$("#spd").onchange=()=>{if(scT){clearInterval(scT);scT=setInterval(step,+$("#spd").value)}};
+function pick(){if(scI<0)return status("Start scanning first.");choose(scI,mode==="blink"?"blink or key":"scanning")}
+$("#sse").onclick=pick;$("#bk").onclick=pick;
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&pend){closeDlg(true);return}
+if((mode==="scan"||mode==="blink")&&scI>=0&&!pend&&(e.key===" "||e.key==="Enter")&&!/BUTTON|INPUT|SELECT|TEXTAREA|A/.test(e.target.tagName)){e.preventDefault();pick()}});
+/* confirmation dialog: nothing happens without it */
+function openDlg(t,p,btns){back=document.activeElement;pend=true;if(scT){clearInterval(scT);scT=null;paused=true}
+$("#dt").textContent=t;$("#dp").textContent=p;const db=$("#db");db.innerHTML="";btns.forEach(([l,f,c])=>{const b=document.createElement("button");b.type="button";b.className="btn "+(c||"");b.textContent=l;b.onclick=f;db.appendChild(b)});
+$("#dlg").hidden=false;status("Please confirm your choice.");db.firstChild.focus()}
+function closeDlg(resume){pend=null;$("#dlg").hidden=true;if(resume&&paused&&scI>=0){paused=false;scT=setInterval(step,+$("#spd").value)}if(resume){status("Cancelled. Nothing was done. Waiting for selection.");if(back)back.focus()}}
+function choose(i,src){openDlg("Please confirm your choice","Open "+Z[i][0]+"? (chosen by "+src+")",[["Yes, confirm",()=>done(i,src)],["No, cancel",()=>closeDlg(true),"o"]])}
+function done(i,src){closeDlg(false);stopScan();const t="Simulated: "+Z[i][0]+" would open. Nothing was opened on your computer.";$("#res").textContent=t;
+const li=document.createElement("li");li.textContent=Z[i][0]+" via "+src;$("#log").prepend(li);status("Done (simulated). Waiting for selection.");if(mode==="blink")startScan();if(back)back.focus()}
+function voice(){const t=$("#vc").value.toLowerCase().replace(/hey cursor/,"").trim();$("#vc").value="";if(!t)return status("Type a command first, for example: open mail.");
+const i=Z.findIndex(z=>t.includes(z[0].toLowerCase()));if(i<0)return status('I did not understand "'+t+'". Try: open mail, open maps, open help.');
+if(gzI!==null&&gzI!==i)return openDlg("Gaze and voice disagree","Voice says "+Z[i][0]+". Gaze says "+Z[gzI][0]+". Did you mean "+Z[i][0]+" or "+Z[gzI][0]+"? It will not guess.",[[Z[i][0],()=>done(i,"voice")],[Z[gzI][0],()=>done(gzI,"gaze")],["Cancel",()=>closeDlg(true),"o"]]);
+choose(i,gzI===i?"voice and gaze agreeing":"voice alone")}
+$("#vs").onclick=voice;$("#vc").addEventListener("keydown",e=>{if(e.key==="Enter")voice()});
+$("#rst").onclick=()=>{stopScan();closeDlg(false);gzI=null;$("#res").textContent="Nothing selected yet. Choose a mode, then pick a zone.";$("#log").innerHTML="";setMode("gaze");status("Reset. Waiting for selection.")};
+/* ---------- feedback form (local demo, validated) ---------- */
+$("#fb").onsubmit=e=>{e.preventDefault();const f=$("#ff"),v=f.value.trim();$("#ef").textContent="";$("#sum").textContent="";f.removeAttribute("aria-invalid");
+if(v.length<10){const m=v?"Please write at least 10 characters. You wrote "+v.length+".":"Please write your feedback.";f.setAttribute("aria-invalid","true");$("#ef").textContent=m;$("#sum").textContent="There is 1 problem: "+m;f.focus();return}
+$("#fb").hidden=true;$("#ok").hidden=false;$("#ok").focus()};
+$("#again").onclick=()=>{$("#fb").reset();$("#fb").hidden=false;$("#ok").hidden=true;$("#fn").focus()};
+</script>
+</body>
+</html>
