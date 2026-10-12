@@ -12,7 +12,7 @@ html{font-size:100%}html[data-size="2"]{font-size:125%}html[data-size="3"]{font-
 *{box-sizing:border-box}body{margin:0;padding-bottom:7rem;background:var(--bg);color:var(--fg);font:1.05rem/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
 h1{font-size:clamp(1.8rem,4vw,2.6rem);margin:.2em 0}h2{margin:0 0 .5rem}p{margin:.4rem 0 .8rem}
 :focus-visible{outline:4px solid var(--fg);box-shadow:0 0 0 8px var(--hl)}
-.w{max-width:64rem;margin:0 auto;padding:1rem 1.25rem}
+.w{max-width:88rem;margin:0 auto;padding:1rem 1.25rem}
 header{border-bottom:3px solid var(--line);background:var(--bg);position:sticky;top:0;z-index:100}
 header .w{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;justify-content:space-between;padding-top:.5rem;padding-bottom:.5rem}
 nav{display:flex;flex-wrap:wrap;gap:.4rem}
@@ -26,7 +26,7 @@ nav .gt{min-height:3rem;padding:.4rem .9rem;font-size:1rem}
 .big{font-weight:800;font-size:1.3rem;padding:.8rem 1rem;border-left:10px solid var(--acc);background:var(--card)}
 .chip{display:inline-block;border:3px solid var(--line);border-radius:999px;padding:.2rem .8rem;margin:.15rem;font-weight:700}
 .err{color:var(--bad);font-weight:700}
-#pv{position:relative;width:20rem;max-width:100%;aspect-ratio:4/3;background:#000;border-radius:1rem;overflow:hidden;border:3px solid var(--line)}
+#pv{position:relative;width:min(100%,calc(clamp(420px,70vh,520px)*var(--ar,1.3333)));aspect-ratio:var(--ar,1.3333);background:#000;border-radius:1rem;overflow:hidden;border:4px solid var(--line);margin:0 auto}
 #pv video,#pv canvas{position:absolute;inset:0;width:100%;height:100%;transform:scaleX(-1)}#pv video{object-fit:cover}
 #gc{position:fixed;left:0;top:0;width:44px;height:44px;margin:-22px 0 0 -22px;border:6px solid #1a1a2e;box-shadow:0 0 0 5px #ffd166;border-radius:50%;pointer-events:none;z-index:400;display:none}
 #gc::after{content:"";position:absolute;inset:14px;background:#1a1a2e;border-radius:50%}
@@ -38,37 +38,51 @@ nav .gt{min-height:3rem;padding:.4rem .9rem;font-size:1rem}
 .rt{font-size:1.3rem;line-height:1.9;max-width:40rem}
 label{display:block;font-weight:700;margin:.8rem 0 .2rem}input[type=range],select{width:100%;max-width:26rem;min-height:2.6rem;font:1rem system-ui}
 .sel[aria-pressed=true]{background:var(--hl);color:#1a1a2e;border-color:#1a1a2e}
+.brand{display:flex;gap:.8rem;align-items:center;text-decoration:none;color:var(--fg)}.logo{width:3.6rem;height:3.6rem;flex:none}
+.bn{display:block;font:900 clamp(1.7rem,4vw,2.8rem)/1 system-ui,sans-serif;letter-spacing:.07em}.btg{display:block;font-weight:700;font-size:1.05rem}
+#flow{margin:.6rem 0}.steps{display:flex;flex-wrap:wrap;gap:.4rem;list-style:none;padding:0;margin:.5rem 0}.steps li{border:3px solid var(--line);border-radius:999px;padding:.2rem .8rem;font-weight:700}.steps li.dn{border-color:var(--acc)}.steps li[aria-current=step]{background:var(--hl);color:#1a1a2e;border-color:#1a1a2e}
+progress{width:100%;height:1rem}.stage{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:1.2rem;align-items:start}@media(max-width:62rem){.stage{grid-template-columns:1fr}}
+.side{display:flex;flex-direction:column;gap:.6rem}.tarea{position:relative;min-height:28rem;border:3px dashed var(--line);border-radius:1.2rem}.tarea .gt{position:absolute;min-width:9rem}
+.dw[aria-pressed=true]{background:var(--hl);color:#1a1a2e;border-color:#1a1a2e}
+#gc::before{content:"";position:absolute;inset:-14px;border-radius:50%;background:conic-gradient(#00c853 var(--d,0deg),transparent 0);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 8px),#000 0);mask:radial-gradient(farthest-side,transparent calc(100% - 8px),#000 0)}
+.tgl{display:flex;gap:.6rem;align-items:center;min-height:2.8rem;margin:.4rem 0}.tgl input{width:1.4rem;height:1.4rem}
 </style>
 </head>
 <body>
-<header><div class="w"><strong>Able Cursor · Gaze Mode</strong>
+<header><div class="w"><a class="brand" href="#main" data-go="welcome" aria-label="Able Cursor, home"><svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="18" fill="#0b3b44"/><path d="M6 32c8-13 17-19 26-19s18 6 26 19c-8 13-17 19-26 19S14 45 6 32z" fill="#fff"/><circle cx="31" cy="32" r="11" fill="#ffd166"/><circle cx="31" cy="32" r="5" fill="#0b3b44"/><path d="M38 33l17 9-8 2-3 8z" fill="#ff7f6e" stroke="#0b3b44" stroke-width="2.5" stroke-linejoin="round"/></svg><span><span class="bn">ABLE CURSOR</span><span class="btg">Your Eyes. Your Control.</span></span></a>
 <span class="chip" id="cam-ind">Camera off</span>
-<nav aria-label="Sections"><button class="gt" data-go="welcome">Welcome</button><button class="gt" data-go="setup">Camera</button><button class="gt" data-go="cal">Calibrate</button><button class="gt" data-go="dash">Dashboard</button><button class="gt" data-go="work">Workspace</button><button class="gt" data-go="set">Settings</button><button class="gt" data-go="help">Help</button></nav></div></header>
+<nav aria-label="Sections"><button class="gt" data-go="setup">Camera</button><button class="gt" data-go="cal">Calibrate</button><button class="gt" data-go="test">Test</button><button class="gt" data-go="dash">Live demo</button><button class="gt" data-go="work">Workspace</button><button class="gt" data-go="set">Settings</button><button class="gt" data-go="help">Help</button></nav></div></header>
 <main class="w" id="main">
 <div id="tt" class="big" role="status" aria-live="polite">Welcome. Nothing is recording yet.</div>
 
-<section id="v-welcome"><h1 id="h-welcome" tabindex="-1">Control this page with your eyes</h1>
-<p>Able Cursor Gaze Mode uses your webcam to estimate where you look and moves a cursor on <strong>this page</strong>. Everything is processed on your device. No video is uploaded or stored. Tracking can be imperfect, and every person is different.</p>
+<div id="flow" hidden><progress id="sp" max="7" value="1" aria-label="Setup progress"></progress><ol class="steps" id="steps"></ol><div class="row" id="fbar"></div></div>
+<section id="v-welcome"><h1 id="h-welcome" tabindex="-1">Welcome to Able Cursor</h1>
+<p>Able Cursor helps you control supported on-screen elements using your eye movements. Your webcam estimates where you are looking, and you can select items using dwell clicking or an optional double-blink gesture. This is an assistive prototype. Accuracy varies with your webcam, lighting, positioning and your own eye movements. Everything is processed on your device. No video is uploaded or stored.</p>
 <div class="card"><h2>Before you start</h2><ol><li>Sit comfortably in front of the computer.</li><li>Keep your face at a comfortable distance from the webcam.</li><li>Keep your eyes visible, with steady lighting in front of you.</li><li>Follow the on-screen dots with your eyes (calibration).</li><li>Learn how the gaze cursor moves.</li><li>Choose your clicking method: dwell or double blink.</li><li>Pause or stop any time: the Pause and Stop buttons, or press Escape.</li></ol>
-<p>Clicking <strong>I Agree</strong> does not turn the camera on. The browser will ask for camera permission separately, when you press Start Setup. This is a prototype, not a certified medical device.</p></div>
-<div class="row"><button id="ack" aria-pressed="false">I Understand</button><button id="agree" disabled>I Agree &amp; Continue</button><button id="start" disabled>Start Setup</button><button id="cancel" class="o">Cancel</button></div>
+<p>Clicking <strong>I Agree</strong> does not turn the camera on. The browser will ask for camera permission separately, when you press Get Started. This is a prototype, not a certified medical device.</p></div>
+<div class="row"><button id="ack" aria-pressed="false">I Understand</button><button id="agree" disabled>I Agree &amp; Continue</button><button id="start" disabled>Get Started</button><button id="cancel" class="o">Cancel</button></div>
 <p id="wmsg" role="status"></p></section>
 
-<section id="v-setup" hidden><h1 id="h-setup" tabindex="-1">Camera setup</h1>
+<section id="v-setup" hidden><h1 id="h-setup" tabindex="-1">Camera and face position</h1>
+<div class="stage"><div class="slot"><div id="pv"><video id="v" playsinline muted aria-label="Your camera preview"></video><canvas id="cv" width="640" height="480" aria-hidden="true"></canvas></div></div><div class="side">
 <div class="big" id="ss" role="status" aria-live="polite">Tracking unavailable: camera is off.</div>
-<div class="row"><button id="cam-on">Start camera</button><button id="cam-off" class="o">Stop camera</button><button data-go="cal">Next: calibrate</button></div>
-<div class="slot"></div><p id="chips"></p><p id="cerr" class="err" role="alert"></p>
-<div id="pvbox"><div id="pv"><video id="v" playsinline muted aria-label="Your camera preview"></video><canvas id="cv" width="640" height="480" aria-hidden="true"></canvas></div></div></section>
-
+<div class="card"><h2>1. Start the camera</h2><p>Press the button. Your browser will ask to use the camera: choose Allow. Nothing is recorded or uploaded.</p><div class="row"><button id="cam-on">Start Camera</button><button id="cam-off" class="o">Stop camera</button></div></div>
+<div class="card"><h2>2. Position yourself</h2><ul><li>Sit about an arm's length from the screen.</li><li>Keep your whole face and both eyes inside the green box.</li><li>Put light in front of you, not behind you.</li><li>Place the camera at eye level if you can.</li></ul><p id="chips"></p><p><strong>Tracking quality:</strong> <span class="qual"></span></p></div><p id="cerr" class="err" role="alert"></p></div></div></section>
 <section id="v-cal" hidden><h1 id="h-cal" tabindex="-1">Calibration</h1>
-<p>You will see 13 large dots, then 3 test dots. Look at each dot until it moves. Keep your head fairly still. This is real tracking: the dots train the gaze model, and the test dots measure it.</p>
-<div class="row"><button id="calgo">Start calibration</button></div><div class="card" id="cres" role="status">Not calibrated yet.</div><div class="slot"></div></section>
-
-<section id="v-dash" hidden><h1 id="h-dash" tabindex="-1">Live dashboard</h1>
-<div class="big" id="ss2" role="status" aria-live="polite"></div><p id="chips2"></p>
-<div class="slot"></div>
-<div class="row"><button class="gt" id="d-pause">Pause</button><button class="gt" id="d-stop">Stop</button><button class="gt" id="d-cal">Recalibrate</button><button class="gt" data-go="set">Settings</button><button class="gt" data-go="work">Open workspace</button></div></section>
-
+<div class="stage"><div class="slot"></div><div class="side"><div class="card"><h2>What will happen</h2><p>You will see 16 big dots, then 4 test dots. Look at each dot until it moves. Keep your head fairly still and both eyes visible. Keep this window the same size afterwards.</p><div class="row"><button id="calgo">Begin Calibration</button></div></div>
+<div class="card" id="cres" role="status">Not calibrated yet.</div><p><strong>Tracking quality:</strong> <span class="qual"></span></p></div></div></section>
+<section id="v-test" hidden><h1 id="h-test" tabindex="-1">Cursor test</h1><p>Look at each button until its bar fills. A tick shows it worked. The ring on the cursor shows the dwell time.</p>
+<div class="stage"><div class="tarea"><button class="gt t" data-l="Top left" style="left:1rem;top:1rem">Top left</button><button class="gt t" data-l="Top right" style="right:1rem;top:1rem">Top right</button><button class="gt t" data-l="Center" style="left:50%;top:45%;transform:translateX(-50%)">Center</button><button class="gt t" data-l="Bottom left" style="left:1rem;bottom:1rem">Bottom left</button><button class="gt t" data-l="Bottom right" style="right:1rem;bottom:1rem">Bottom right</button></div>
+<div class="side"><div class="slot"></div><div class="big" id="tres" role="status">0 of 5 targets reached.</div></div></div></section>
+<section id="v-method" hidden><h1 id="h-method" tabindex="-1">Choose how to click</h1>
+<div class="g"><div class="card"><h2>Dwell clicking (recommended)</h2><p>Look at a button. A ring fills around the cursor. When it is full, the button is pressed. Look away to cancel.</p><button class="gt sel" data-m="dwell" aria-pressed="true">Use dwell</button></div>
+<div class="card"><h2>Double blink (optional)</h2><p>Look at a button and blink twice on purpose. It may work differently for each person, so dwell is the fallback.</p><button class="gt sel" data-m="blink" aria-pressed="false">Use double blink</button></div></div>
+<div class="card"><h2>Dwell time</h2><div class="row"><button class="gt dw" data-d="1" aria-pressed="false">1 second</button><button class="gt dw" data-d="2" aria-pressed="true">2 seconds</button><button class="gt dw" data-d="3" aria-pressed="false">3 seconds</button><button class="gt dw" data-d="4" aria-pressed="false">4 seconds</button></div></div></section>
+<section id="v-dash" hidden><h1 id="h-dash" tabindex="-1">Live demo</h1>
+<div class="stage"><div class="slot"></div><div class="side"><div class="big" id="ss2" role="status" aria-live="polite"></div>
+<div class="card"><h2>Status</h2><p id="chips2"></p><p><strong>Current target:</strong> <span id="tgt">none</span></p><p><strong>Tracking quality:</strong> <span class="qual"></span></p><label for="bm">Eye closure (blink meter)</label><progress id="bm" max="1" value="0"></progress></div>
+<div class="card"><h2>Voice assistant: "Hey Cursor"</h2><p id="vs" role="status"></p><p id="vr" aria-live="polite"></p><div class="row"><button id="v-on" class="o" aria-pressed="false">Enable voice</button><button id="v-mute" class="o">Mute</button></div></div>
+<div class="row"><button class="gt" id="d-pause">Pause</button><button class="gt" id="d-stop">Stop</button><button class="gt" id="d-cal">Recalibrate</button><button class="gt" data-go="work">Open workspace</button><button class="gt" data-go="help">Open Help</button></div></div></div></section>
 <section id="v-work" hidden><h1 id="h-work" tabindex="-1">Demonstration workspace</h1>
 <div class="g"><button class="gt" id="w-home">Home</button><button class="gt" id="w-dash">Open Dashboard</button><button class="gt" id="w-read">Read Text</button><button class="gt" id="w-sel">Select Item</button><button class="gt" id="w-back">Back</button><button class="gt" id="w-next">Next</button><button class="gt" data-go="set">Settings</button><button class="gt" id="w-pause">Pause Tracking</button></div>
 <div class="card" id="rd"><h2>Reading area</h2><p><small>Reading is safe. Only buttons are targets, so looking at this text activates nothing.</small></p><p class="rt" id="rt"></p><p id="pg"></p></div>
@@ -84,60 +98,67 @@ label{display:block;font-weight:700;margin:.8rem 0 .2rem}input[type=range],selec
 <div class="card"><h2>Cursor</h2><label for="s-gain">Sensitivity: <output id="o-gain"></output></label><input type="range" id="s-gain" min=".8" max="1.6" step=".1">
 <label for="s-sm">Smoothness (1 fast, 5 smooth): <output id="o-sm"></output></label><input type="range" id="s-sm" min="1" max="5" step="1">
 <label for="s-cal">Time per calibration dot: <output id="o-cal"></output> s</label><input type="range" id="s-cal" min=".6" max="2" step=".2"></div>
+<div class="card"><h2>Blink and cursor</h2><label for="s-bth">Blink sensitivity (lower = easier to trigger): <output id="o-bth"></output></label><input type="range" id="s-bth" min=".3" max=".8" step=".05"><label for="s-cs">Cursor size: <output id="o-cs"></output> px</label><input type="range" id="s-cs" min="30" max="90" step="5"><label class="tgl"><input type="checkbox" id="s-snd"> Sound when a button is pressed</label><label class="tgl"><input type="checkbox" id="s-spk"> Spoken replies from Hey Cursor</label></div>
 <div class="card"><h2>Appearance</h2><label for="s-th">Theme</label><select id="s-th"><option value="light">Light</option><option value="dark">Dark</option><option value="contrast">High contrast</option></select>
 <label for="s-sz">Text size</label><select id="s-sz"><option value="1">Normal</option><option value="2">Large</option><option value="3">Extra large</option></select></div></section>
 
 <section id="v-help" hidden><h1 id="h-help" tabindex="-1">Help</h1>
-<div class="card"><h2>What is real</h2><p>Live camera, face and iris tracking (MediaPipe, on your device), a calibration that trains a regression, a gaze cursor, dwell clicking, double-blink clicking, and a floating panel inside this page. I have not measured accuracy with a study, so treat it as an experiment.</p></div>
-<div class="card"><h2>Limits</h2><ul><li>The cursor works only on this page. It cannot control other apps.</li><li>Glasses, glare, dim light, and head movement lower accuracy. Recalibrate if the cursor drifts.</li><li>Natural blinking varies. If double blink triggers by mistake or not at all, use dwell.</li><li>The "Pop out" window floats above other apps but works with mouse and keyboard only, not gaze.</li><li>If you pause by gaze, resume with the mouse, the P key, or a caregiver.</li></ul></div>
-<div class="card"><h2>Indian Standards (BIS)</h2><p>Designed with reference to IS 17802 (Part 1):2021, Accessibility for the ICT Products and Services (BIS adoption of EN 301 549 v3.2.1), which the Rights of Persons with Disabilities Rules name for websites and applications. This is a self-assessment. It has not been audited or certified.</p><ul><li>Works without a mouse, keyboard or touch once calibrated (limited manipulation or strength).</li><li>Large targets, high-contrast theme, three text sizes, visible focus.</li><li>Status is given in words, not colour alone, and announced to screen readers.</li><li>Explicit consent before the camera starts. Video stays on the device.</li><li>Mouse and keyboard remain available as alternatives.</li></ul></div>
-<div class="card"><h2>Keys</h2><p><strong>Escape</strong> stops tracking at once. <strong>P</strong> pauses or resumes.</p></div>
-<div class="card"><h2>Privacy</h2><p>Camera frames stay on your device. The tracker files download once from jsDelivr and Google. We save only your settings and a flag that you finished onboarding.</p><button class="gt" id="reset-ob">Reset onboarding</button></div></section>
+<div class="g"><div class="card"><h2>Set up</h2><ul><li><strong>Webcam:</strong> at eye level, lens clean.</li><li><strong>Face:</strong> an arm's length away, both eyes in the green box, light in front of you.</li><li><strong>Camera:</strong> press Start Camera and choose Allow.</li><li><strong>Calibration:</strong> look at each dot until it moves. Keep still.</li></ul></div>
+<div class="card"><h2>Use it</h2><ul><li><strong>Cursor:</strong> the ring follows where you look. Buttons light up when it is near.</li><li><strong>Dwell:</strong> keep looking at a button until the ring fills.</li><li><strong>Double blink:</strong> blink twice on purpose while looking at a button.</li><li><strong>Pause:</strong> the Pause button, or press P. <strong>Stop camera:</strong> the Stop button, or press Escape.</li></ul></div>
+<div class="card"><h2>Hey Cursor</h2><p>On the Live demo page press Enable voice and allow the microphone. Say "Hey Cursor", then a command: start tracking, pause tracking, resume tracking, start calibration, turn on dwell clicking, turn on blink clicking, open help, stop camera. It works in Chrome and Edge while this page is open and visible. It stops when you disable it.</p></div>
+<div class="card"><h2>If something goes wrong</h2><ul><li><strong>Cursor is off:</strong> add light, keep both eyes visible, sit as you did in calibration, then Recalibrate. Resizing the window also needs a recalibration.</li><li><strong>Clicking does not work:</strong> use a longer dwell time, or check that a button is highlighted.</li><li><strong>Blink does not work:</strong> change blink sensitivity in Settings, or use dwell.</li><li><strong>No camera:</strong> close Zoom or Teams, allow the camera in the address bar, press Start Camera.</li></ul></div></div>
+<div class="card"><h2>Limits and privacy</h2><p>This is a prototype, not a medical device, and accuracy varies. The cursor works only on this page. Camera frames stay on your device. We save only your settings and a flag that you finished onboarding. Chrome's speech recognition sends audio to Google while voice is on.</p><button class="gt" id="reset-ob">Reset onboarding</button></div></section>
 </main>
 <div id="gc" aria-hidden="true"></div>
 <div id="fp" role="region" aria-label="Assistive controls"><button class="gt" id="fp-pause">Pause</button><button class="gt" id="fp-stop">Stop</button><button class="gt" id="fp-m">Click: Dwell</button><button class="gt" id="fp-cal">Recalibrate</button><button class="gt" data-go="set">Settings</button><button class="gt" data-go="dash">Dashboard</button><button class="o" id="fp-pip">Pop out</button></div>
-<div id="co" hidden><progress id="cp" max="16" value="0" aria-label="Calibration progress"></progress><p class="big" id="ct" role="status"></p><button id="cc" class="o" style="position:fixed;top:.6rem;left:50%;transform:translateX(-50%)">Cancel calibration</button><div id="cd"></div></div>
+<div id="co" hidden><progress id="cp" max="20" value="0" aria-label="Calibration progress"></progress><p class="big" id="ct" role="status"></p><button id="cc" class="o" style="position:fixed;top:.6rem;left:50%;transform:translateX(-50%)">Cancel calibration</button><div id="cd"></div></div>
 <div id="md" hidden role="alertdialog" aria-labelledby="mq"><div class="card"><h2 id="mq"></h2><div class="row"><button class="gt" id="my">Confirm</button><button class="gt o" id="mn">Cancel</button></div></div></div>
 
 <script>
 /* ===== helpers and settings (saved on this device only) ===== */
 const $=id=>document.getElementById(id),$$=s=>[...document.querySelectorAll(s)],wait=ms=>new Promise(r=>setTimeout(r,ms));
-const DEF={dwell:2,gain:1.1,sm:3,method:"dwell",bw:1.2,lock:1.5,cal:1,theme:"light",size:"1"};let S={...DEF};
-try{Object.assign(S,JSON.parse(localStorage.getItem("ac-gaze")||"{}"))}catch(e){}
+const DEF={dwell:2,gain:1,sm:3,method:"dwell",bw:1.2,lock:1.5,cal:1,theme:"light",size:"1",bth:.5,cs:44,assist:45,sound:false,speak:false};let S={...DEF};
+try{Object.assign(S,JSON.parse(localStorage.getItem("ac-gaze2")||"{}"))}catch(e){}
 const SM=[.6,.45,.3,.2,.12];
-function applyS(){const h=document.documentElement;h.dataset.theme=S.theme;h.dataset.size=S.size;
-[["dwell","dwell"],["lock","lock"],["bw","bw"],["gain","gain"],["sm","sm"],["cal","cal"]].forEach(([i,k])=>{$("s-"+i).value=S[k];$("o-"+i).textContent=S[k]});
+function applyS(){const h=document.documentElement;h.dataset.theme=S.theme;h.dataset.size=S.size;gc.style.width=gc.style.height=S.cs+"px";gc.style.margin=(-S.cs/2)+"px 0 0 "+(-S.cs/2)+"px";$("s-snd").checked=S.sound;$("s-spk").checked=S.speak;$$(".dw").forEach(b=>b.setAttribute("aria-pressed",+b.dataset.d===S.dwell));
+[["dwell","dwell"],["lock","lock"],["bw","bw"],["gain","gain"],["sm","sm"],["cal","cal"],["bth","bth"],["cs","cs"]].forEach(([i,k])=>{$("s-"+i).value=S[k];$("o-"+i).textContent=S[k]});
 $("s-th").value=S.theme;$("s-sz").value=S.size;$$(".sel").forEach(b=>b.setAttribute("aria-pressed",b.dataset.m===S.method));render();
-try{localStorage.setItem("ac-gaze",JSON.stringify(S))}catch(e){}}
-[["dwell","dwell"],["lock","lock"],["bw","bw"],["gain","gain"],["sm","sm"],["cal","cal"]].forEach(([i,k])=>$("s-"+i).oninput=e=>{S[k]=+e.target.value;applyS()});
+try{localStorage.setItem("ac-gaze2",JSON.stringify(S))}catch(e){}}
+[["dwell","dwell"],["lock","lock"],["bw","bw"],["gain","gain"],["sm","sm"],["cal","cal"],["bth","bth"],["cs","cs"]].forEach(([i,k])=>$("s-"+i).oninput=e=>{S[k]=+e.target.value;applyS()});
 $("s-th").onchange=e=>{S.theme=e.target.value;applyS()};$("s-sz").onchange=e=>{S.size=e.target.value;applyS()};
 $$(".sel").forEach(b=>b.onclick=()=>{S.method=b.dataset.m;blinks=[];applyS();toast("Clicking method: "+(S.method==="dwell"?"dwell":"double blink"))});
 function toast(m){$("tt").textContent=m}
 /* ===== views ===== */
-const V=["welcome","setup","cal","dash","work","set","help"];let view="welcome";
+const V=["welcome","setup","cal","test","method","dash","work","set","help"];let view="welcome";
 function go(v){view=v;V.forEach(x=>$("v-"+x).hidden=x!==v);const s=document.querySelector("#v-"+v+" .slot");if(s)s.appendChild($("pv"));$("h-"+v).focus();render()}
 document.addEventListener("click",e=>{const b=e.target.closest("[data-go]");if(b)go(b.dataset.go)});
-/* ===== consent flow: the camera starts only from "Start Setup" or "Start camera" ===== */
+/* ===== consent flow: the camera starts only from "Get Started" or "Start camera" ===== */
 let ack=false,agree=false;
 $("ack").onclick=()=>{ack=!ack;$("ack").setAttribute("aria-pressed",ack);$("agree").disabled=!ack;if(!ack){agree=false;$("start").disabled=true}};
-$("agree").onclick=()=>{agree=true;$("start").disabled=false;$("wmsg").textContent="Thank you. Press Start Setup. Your browser will then ask for camera permission."};
+$("agree").onclick=()=>{agree=true;$("start").disabled=false;$("wmsg").textContent="Thank you. Press Get Started. Your browser will then ask for camera permission."};
 $("start").onclick=()=>{try{localStorage.setItem("ac-onboarded","1")}catch(e){}go("setup");startCamera()};
 $("cancel").onclick=()=>{$("wmsg").textContent="Cancelled. Tracking stays off. You can use this page with a mouse and keyboard, and come back any time."};
-try{if(localStorage.getItem("ac-onboarded")){$("wmsg").textContent="Welcome back. The camera is off until you press Start Setup, or Start camera on the Camera page."}}catch(e){}
+try{if(localStorage.getItem("ac-onboarded")){$("wmsg").textContent="Welcome back. The camera is off until you press Get Started, or Start camera on the Camera page."}}catch(e){}
 function ask(q,fn){$("mq").textContent=q;$("md").hidden=false;$("my").onclick=()=>{$("md").hidden=true;fn()};$("mn").onclick=()=>{$("md").hidden=true};$("mn").focus()}
-$("reset-ob").onclick=()=>ask("Reset onboarding and clear saved settings?",()=>{try{localStorage.removeItem("ac-onboarded");localStorage.removeItem("ac-gaze")}catch(e){}S={...DEF};applyS();ack=agree=false;$("ack").setAttribute("aria-pressed","false");$("agree").disabled=true;$("start").disabled=true;$("wmsg").textContent="Onboarding reset.";go("welcome")});
+$("reset-ob").onclick=()=>ask("Reset onboarding and clear saved settings?",()=>{try{localStorage.removeItem("ac-onboarded");localStorage.removeItem("ac-gaze2")}catch(e){}S={...DEF};applyS();ack=agree=false;$("ack").setAttribute("aria-pressed","false");$("agree").disabled=true;$("start").disabled=true;$("wmsg").textContent="Onboarding reset.";go("welcome")});
 /* ===== tracker state ===== */
 const VIS="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs",WASM="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm",MODEL="https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task";
 const video=$("v"),cv=$("cv"),cx=cv.getContext("2d"),gc=$("gc"),lc=document.createElement("canvas");lc.width=16;lc.height=12;
-let loading=false,lmk=null,stream=null,model=null,tracking=false,paused=false,calibrating=false,aborted=false,faceOK=false,eyesOpen=false,lastSeen=0,warm=0,tok=0,host=window,pip=null,col=null,err="",dark=false,lastLum=0;
+let bsc=0,isCl=false,testing=false,calSize=null,calErr=0,stale=false,fsig="",loading=false,lmk=null,stream=null,model=null,tracking=false,paused=false,calibrating=false,aborted=false,faceOK=false,eyesOpen=false,lastSeen=0,warm=0,tok=0,host=window,pip=null,col=null,err="",dark=false,lastLum=0;
 let pos={x:.5,y:.5},first=true,cur=null,since=0,lockedEl=null,lockUntil=0,lastT=null,closedAt=0,blinks=[];
 const clamp=v=>Math.max(0,Math.min(.999,v)),dotp=(w,f)=>w.reduce((s,v,i)=>s+v*f[i],0);
-/* gaze features: iris position in each eye, head pose proxies, face centre and size */
-function feat(l){const P=i=>l[i],e=(a,b,t,m,r)=>[(P(r).x-P(a).x)/(P(b).x-P(a).x),(P(r).y-P(t).y)/(P(m).y-P(t).y)];
-const A=e(33,133,159,145,468),B=e(362,263,386,374,473),ex=(P(33).x+P(263).x)/2,ey=(P(33).y+P(263).y)/2,s=Math.hypot(P(263).x-P(33).x,P(263).y-P(33).y);
-return [...A,...B,(P(1).x-ex)/s,(P(1).y-ey)/s,ex,ey,s,1]}
-function ridge(X,Y){const n=X[0].length,M=[];for(let i=0;i<n;i++){M.push(Array(n+1).fill(0));for(let j=0;j<n;j++){let s=0;for(const r of X)s+=r[i]*r[j];M[i][j]=s+(i===j&&i<n-1?1e-3:0)}let s=0;X.forEach((r,k)=>s+=r[i]*Y[k]);M[i][n]=s}
-for(let i=0;i<n;i++){let p=i;for(let r=i+1;r<n;r++)if(Math.abs(M[r][i])>Math.abs(M[p][i]))p=r;[M[i],M[p]]=[M[p],M[i]];for(let r=0;r<n;r++)if(r!==i){const f=M[r][i]/M[i][i];for(let c=i;c<=n;c++)M[r][c]-=f*M[i][c]}}return M.map((r,i)=>r[n]/r[i])}
+/* gaze features (pixel space, so the video aspect ratio does not distort them): mean iris position in the eyes, head pose proxies, face position and size */
+function feat(l){const W=video.videoWidth||640,H=video.videoHeight||480,P=i=>({x:l[i].x*W,y:l[i].y*H});
+const e=(a,b,t,m,r)=>{const A=P(a),B=P(b),T=P(t),M=P(m),R=P(r);return[(R.x-A.x)/(B.x-A.x||1),(R.y-T.y)/(M.y-T.y||1)]};
+const L=e(33,133,159,145,468),Q=e(362,263,386,374,473),a=P(33),b=P(263),n=P(1),s=Math.hypot(b.x-a.x,b.y-a.y)||1,mx=(a.x+b.x)/2,my=(a.y+b.y)/2;
+return[(L[0]+Q[0])/2,(L[1]+Q[1])/2,(n.x-mx)/s,(n.y-my)/s,mx/W,my/H,s/W]}
+function solve(A){const n=A.length;for(let i=0;i<n;i++){let p=i;for(let r=i+1;r<n;r++)if(Math.abs(A[r][i])>Math.abs(A[p][i]))p=r;[A[i],A[p]]=[A[p],A[i]];for(let r=0;r<n;r++)if(r!==i){const f=A[r][i]/A[i][i];for(let c=i;c<=n;c++)A[r][c]-=f*A[i][c]}}return A.map((r,i)=>r[n]/r[i])}
+/* ridge regression on standardised features, with an intercept */
+function fit(X,Y,lam){const n=X.length,d=X[0].length,mu=Array(d).fill(0),sd=Array(d).fill(0);X.forEach(r=>r.forEach((v,j)=>mu[j]+=v/n));X.forEach(r=>r.forEach((v,j)=>sd[j]+=(v-mu[j])**2/n));for(let j=0;j<d;j++)sd[j]=Math.sqrt(sd[j])||1;
+const my=Y.reduce((a,b)=>a+b,0)/n,Z=X.map(r=>r.map((v,j)=>(v-mu[j])/sd[j])),A=[];
+for(let i=0;i<d;i++){const row=Array(d+1).fill(0);for(let j=0;j<d;j++){let s=0;for(let k=0;k<n;k++)s+=Z[k][i]*Z[k][j];row[j]=s+(i===j?lam*n:0)}let s=0;for(let k=0;k<n;k++)s+=Z[k][i]*(Y[k]-my);row[d]=s;A.push(row)}
+return{mu,sd,my,w:solve(A)}}
+const pr=(m,f)=>m.my+m.w.reduce((s,v,j)=>s+v*(f[j]-m.mu[j])/m.sd[j],0);
 /* ===== status ===== */
 function active(){return tracking&&model&&!paused&&!calibrating&&faceOK}
 function msg(){if(err)return err;if(loading)return"Working: asking for the camera or loading the tracker. Please wait.";if(!stream)return"Tracking unavailable: camera is off.";if(paused)return"Tracking paused.";if(calibrating)return"Calibrating.";if(!faceOK)return"Camera ready. No face found: move into view and add light in front of you.";if(!eyesOpen)return"Face detected. Eyes not detected (closed or hidden).";if(!model)return"Eyes detected. Not calibrated yet: go to Calibrate.";return dark?"Tracking active, but the room looks dark. Add light.":"Tracking active."}
@@ -146,7 +167,8 @@ $("ss").textContent=m;$("ss2").textContent=m;$("chips").textContent=c;$("chips2"
 $("cam-ind").textContent=stream?(paused?"● Camera on, paused":"● Camera on"):"Camera off";
 $("fp-pause").textContent=paused?"Resume":"Pause";$("d-pause").textContent=paused?"Resume":"Pause";$("w-pause").textContent=paused?"Resume":"Pause Tracking";
 $("fp-stop").textContent=stream?"Stop":"Start camera";$("d-stop").textContent=stream?"Stop":"Start camera";$("fp-m").textContent="Click: "+(S.method==="dwell"?"Dwell":"Double blink");
-gc.style.display=active()?"block":"none"}
+gc.style.display=active()||testing?"block":"none";
+const q=!stream?"camera off":!faceOK?"no face found":dark?"low light":!model?"not calibrated":stale?"window resized, recalibrate":calErr<innerWidth*.1?"good":calErr<innerWidth*.18?"fair":"poor";$$(".qual").forEach(e=>e.textContent=q);flowbar()}
 /* ===== camera and model, with clear errors ===== */
 async function loadModel(){try{const m=await import(VIS),fs=await m.FilesetResolver.forVisionTasks(WASM),mk=d=>m.FaceLandmarker.createFromOptions(fs,{baseOptions:{modelAssetPath:MODEL,delegate:d},runningMode:"VIDEO",numFaces:1,outputFaceBlendshapes:true});
 try{lmk=await mk("GPU")}catch(e){lmk=await mk("CPU")}}catch(e){const x=new Error("The tracker could not be loaded. Check your internet connection and press Start camera again.");x.name="TrackerLoad";throw x}}
@@ -154,53 +176,68 @@ const withTimeout=(p,ms)=>Promise.race([p,new Promise((_,r)=>setTimeout(()=>{con
 async function startCamera(){err="";let done=null;try{done=localStorage.getItem("ac-onboarded")}catch(e){}if(!agree&&!done){toast("Please read and accept the welcome screen first. The camera stays off until then.");go("welcome");return}
 if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){err="This browser cannot use the camera here. Use a current Chrome or Edge, on https or localhost.";return render()}
 if(loading||(stream&&lmk))return;loading=true;render();
-try{if(!stream){toast("Asking for camera permission. Click Allow in the box near the address bar.");stream=await navigator.mediaDevices.getUserMedia({video:{width:640,height:480,facingMode:"user"}});video.srcObject=stream;await video.play();render()}
+try{if(!stream){toast("Asking for camera permission. Click Allow in the box near the address bar.");stream=await navigator.mediaDevices.getUserMedia({video:{width:{ideal:1280},height:{ideal:720},frameRate:{ideal:30},facingMode:"user"}});video.srcObject=stream;await video.play();fitCam();render()}
 if(!lmk){toast("Camera is on. Loading the tracker (about 10 MB). This can take up to a minute on slow Wi-Fi.");await withTimeout(loadModel(),60000)}
 tracking=true;paused=false;toast("Camera and tracker are on. Next: calibrate.");loop()}
 catch(e){if(e.name!=="TrackerLoad"){if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;video.srcObject=null}tracking=false;
 err=e.name==="NotAllowedError"?"Camera permission was denied. Click the camera icon in the address bar, allow it, then press Start camera.":e.name==="NotFoundError"?"No camera was found. Plug one in and press Start camera.":e.name==="NotReadableError"?"The camera is busy. Close Zoom, Teams or the Camera app, then press Start camera.":e.name==="TrackerLoad"?e.message:"Could not start the camera: "+(e.message||e.name)}
 loading=false;render()}
-function stopCamera(){tok++;if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;video.srcObject=null;tracking=false;faceOK=false;eyesOpen=false;calibrating=false;aborted=true;$("co").hidden=true;clear();cx.clearRect(0,0,640,480);toast("Stopped. The camera is off.");render()}
+function stopCamera(){tok++;if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;video.srcObject=null;tracking=false;faceOK=false;eyesOpen=false;calibrating=false;aborted=true;$("co").hidden=true;clear();cx.clearRect(0,0,cv.width,cv.height);toast("Stopped. The camera is off.");render()}
 $("cam-on").onclick=startCamera;$("cam-off").onclick=stopCamera;
 /* ===== frame loop (runs in the pop-out window's timer when it is open, so it is not throttled) ===== */
 function loop(){const t=++tok,h=host;const f=()=>{if(t!==tok)return;try{step()}catch(e){}h.requestAnimationFrame(f)};h.requestAnimationFrame(f)}
+function fitCam(){const w=video.videoWidth||640,h=video.videoHeight||480;cv.width=w;cv.height=h;$("pv").style.setProperty("--ar",(w/h).toFixed(4))}
 const EYE=[[33,160,158,133,153,144],[362,385,387,263,373,380]];
-function draw(l){cx.clearRect(0,0,640,480);if(!l)return;let a=1,b=1,c=0,d=0;l.forEach(p=>{a=Math.min(a,p.x);b=Math.min(b,p.y);c=Math.max(c,p.x);d=Math.max(d,p.y)});
-cx.lineWidth=4;cx.strokeStyle="#00e676";cx.setLineDash([12,6]);cx.strokeRect(a*640,b*480,(c-a)*640,(d-b)*480);cx.setLineDash([]);cx.strokeStyle="#ffd166";cx.lineWidth=3;
-EYE.forEach(E=>{cx.beginPath();E.forEach((i,k)=>k?cx.lineTo(l[i].x*640,l[i].y*480):cx.moveTo(l[i].x*640,l[i].y*480));cx.closePath();cx.stroke()});
-cx.fillStyle="#fff";for(let i=468;i<478;i++){cx.beginPath();cx.arc(l[i].x*640,l[i].y*480,3,0,7);cx.fill()}}
+function draw(l){const W=cv.width,H=cv.height;cx.clearRect(0,0,W,H);if(!l)return;let a=1,b=1,c=0,d=0;l.forEach(p=>{a=Math.min(a,p.x);b=Math.min(b,p.y);c=Math.max(c,p.x);d=Math.max(d,p.y)});
+cx.lineWidth=5;cx.strokeStyle="#00e676";cx.setLineDash([14,8]);cx.strokeRect(a*W,b*H,(c-a)*W,(d-b)*H);cx.setLineDash([]);cx.strokeStyle="#ffd166";cx.lineWidth=4;
+EYE.forEach(E=>{cx.beginPath();E.forEach((i,k)=>k?cx.lineTo(l[i].x*W,l[i].y*H):cx.moveTo(l[i].x*W,l[i].y*H));cx.closePath();cx.stroke()});
+cx.fillStyle="#fff";for(let i=468;i<478;i++){cx.beginPath();cx.arc(l[i].x*W,l[i].y*H,4,0,7);cx.fill()}}
 function step(){if(!lmk||!stream||video.readyState<2)return;const now=performance.now(),r=lmk.detectForVideo(video,now),l=r.faceLandmarks&&r.faceLandmarks[0];draw(l);
 if(now-lastLum>1000){lastLum=now;const q=lc.getContext("2d");q.drawImage(video,0,0,16,12);const D=q.getImageData(0,0,16,12).data;let s=0;for(let i=0;i<D.length;i+=4)s+=D[i]*.3+D[i+1]*.6+D[i+2]*.1;dark=s/192<45;render()}
 if(!l){if(faceOK&&now-lastSeen>400){faceOK=false;eyesOpen=false;warm=10;clear();render()}return}
 if(!faceOK){faceOK=true;render()}lastSeen=now;
-const bs=r.faceBlendshapes&&r.faceBlendshapes[0],g=n=>bs?(bs.categories.find(c=>c.categoryName===n)||{score:0}).score:0,closed=g("eyeBlinkLeft")>.5&&g("eyeBlinkRight")>.5;
+const bs=r.faceBlendshapes&&r.faceBlendshapes[0],g=n=>bs?(bs.categories.find(c=>c.categoryName===n)||{score:0}).score:0;
+bsc=.5*bsc+.5*Math.min(g("eyeBlinkLeft"),g("eyeBlinkRight"));const closed=isCl?bsc>S.bth*.65:bsc>S.bth;isCl=closed;$("bm").value=bsc;
 if(eyesOpen===closed){eyesOpen=!closed;render()}blinkLogic(now,closed);if(closed)return;
-const f=feat(l);if(col)col.push(f);if(!model||calibrating)return;
-let x=clamp(.5+(clamp(dotp(model.wx,f))-.5)*S.gain),y=clamp(.5+(clamp(dotp(model.wy,f))-.5)*S.gain);
+const f=feat(l);if(col)col.push(f);if(!model||(calibrating&&!testing))return;
+const x=clamp(.5+(clamp(pr(model.x,f))-.5)*S.gain),y=clamp(.5+(clamp(pr(model.y,f))-.5)*S.gain);
 if(first){pos={x,y};first=false}else{const a=warm>0?.12:SM[S.sm-1];pos.x+=(x-pos.x)*a;pos.y+=(y-pos.y)*a}if(warm>0)warm--;
-if(!active()){render();return}gc.style.display="block";const px=pos.x*innerWidth,py=pos.y*innerHeight;gc.style.transform="translate("+px+"px,"+py+"px)";
-const t=at(px,py);lastT=t;if(t!==cur){cur=t;since=now;clear();if(t!==lockedEl)lockedEl=null;if(t)t.classList.add("hl")}
-if(S.method==="dwell"&&t&&t!==lockedEl&&now>=lockUntil){const p=Math.min(1,(now-since)/(S.dwell*1000));t.style.setProperty("--p",p*100+"%");if(p>=1)activate(t)}}
-function at(x,y){const e=document.elementFromPoint(x,y);return e&&e.closest(".gt:not([disabled])")}
-function clear(){$$(".gt.hl").forEach(e=>{e.classList.remove("hl");e.style.setProperty("--p","0%")});cur=null}
-function activate(t){const now=performance.now();if(now<lockUntil)return;lockedEl=t;lockUntil=now+S.lock*1000;t.style.setProperty("--p","0%");t.classList.add("ok");setTimeout(()=>t.classList.remove("ok"),700);toast("Selected: "+t.textContent.trim());t.click()}
+const px=pos.x*innerWidth,py=pos.y*innerHeight;if(testing){gc.style.display="block";gc.style.transform="translate("+px+"px,"+py+"px)";return}
+if(!active()){render();return}gc.style.display="block";gc.style.transform="translate("+px+"px,"+py+"px)";
+const t=at(px,py);lastT=t;
+if(t!==cur){cur=t;since=now;unhl();gc.style.setProperty("--d","0deg");if(t!==lockedEl)lockedEl=null;if(t)t.classList.add("hl");$("tgt").textContent=t?t.textContent.trim():"none"}
+if(S.method==="dwell"&&t&&t!==lockedEl&&now>=lockUntil){const p=Math.min(1,(now-since)/(S.dwell*1000));t.style.setProperty("--p",p*100+"%");gc.style.setProperty("--d",p*360+"deg");if(p>=1){gc.style.setProperty("--d","0deg");activate(t)}}}
+/* target assistance: the nearest button within reach is the target, and it stays selected a little longer once chosen, so gaze jitter does not reset the dwell timer */
+function at(x,y){const L=$$(!$("md").hidden?"#md .gt":".gt");let best=null,bd=1e9;
+for(const e of L){if(e.disabled)continue;const r=e.getBoundingClientRect();if(!r.width)continue;const dx=Math.max(r.left-x,0,x-r.right),dy=Math.max(r.top-y,0,y-r.bottom),d=Math.hypot(dx,dy),reach=e===cur?S.assist*1.6:S.assist;if(d<=reach&&d<bd){bd=d;best=e}}return best}
+function unhl(){$$(".gt.hl").forEach(e=>{e.classList.remove("hl");e.style.setProperty("--p","0%")})}
+function clear(){unhl();gc.style.setProperty("--d","0deg");cur=null}
+let actx=null;function beep(){if(!S.sound)return;try{actx=actx||new AudioContext();const o=actx.createOscillator(),g=actx.createGain();o.frequency.value=880;g.gain.value=.1;o.connect(g);g.connect(actx.destination);o.start();o.stop(actx.currentTime+.12)}catch(e){}}
+function activate(t){const now=performance.now();if(now<lockUntil)return;lockedEl=t;lockUntil=now+S.lock*1000;t.style.setProperty("--p","0%");t.classList.add("ok");setTimeout(()=>t.classList.remove("ok"),700);toast("Selected: "+t.textContent.trim());beep();t.click()}
 /* double blink: two deliberate blinks (eyes closed 0.12 to 0.6 s) inside the time window select the target you were looking at */
 function blinkLogic(now,closed){if(closed){if(!closedAt)closedAt=now;return}if(!closedAt)return;const d=now-closedAt;closedAt=0;
-if(S.method!=="blink"||!active()||d<120||d>600)return;blinks=blinks.filter(t=>now-t<=S.bw*1000);blinks.push(now);
+if(S.method!=="blink"||!active()||d<100||d>700)return;blinks=blinks.filter(t=>now-t<=S.bw*1000);blinks.push(now);
 if(blinks.length>=2){blinks=[];if(lastT)activate(lastT);else toast("Double blink seen, but you were not looking at a button.")}else toast("Blink 1 of 2. Blink again to select.")}
-/* ===== calibration (13 training dots, 3 test dots) ===== */
-const CP=[[.5,.5],[.1,.1],[.9,.1],[.1,.9],[.9,.9],[.5,.1],[.5,.9],[.1,.5],[.9,.5],[.3,.3],[.7,.3],[.3,.7],[.7,.7]],TP=[[.25,.5],[.75,.5],[.5,.8]];
+/* ===== calibration: 16 training dots (4x4 grid), then 4 held-out test dots ===== */
+const G4=[.1,.37,.63,.9],CP=[];G4.forEach(y=>G4.forEach(x=>CP.push([x,y])));const TP=[[.5,.5],[.2,.5],[.8,.5],[.5,.8]];
 function place(x,y,t,n){$("cd").style.left=x*100+"%";$("cd").style.top=y*100+"%";$("ct").textContent=t;$("cp").value=n}
-async function calibrate(){if(!stream)return toast("Start the camera first (Camera page).");model=null;calibrating=true;aborted=false;clear();$("co").hidden=false;render();await wait(800);const X=[],Yx=[],Yy=[];
-for(let i=0;i<CP.length&&!aborted;i++){const[px,py]=CP[i];let ok=false;for(let k=0;k<2&&!ok&&!aborted;k++){place(px,py,"Look at the dot ("+(i+1)+" of 16)",i);await wait(700);col=[];await wait(S.cal*1000);const s=col;col=null;
-if(s.length>=8){s.forEach(f=>{X.push(f);Yx.push(px);Yy.push(py)});ok=true}else $("ct").textContent="Face or eyes were not seen. Look at the dot again."}
-if(!ok&&!aborted)return endCal("Calibration failed: your face or eyes were not seen well enough. Check light and camera, then retry.")}
+const med=a=>{const s=[...a].sort((p,q)=>p-q),m=s.length>>1;return s.length%2?s[m]:(s[m-1]+s[m])/2},medRow=R=>R[0].map((_,j)=>med(R.map(r=>r[j])));
+async function grab(ms){col=[];await wait(ms);const s=col;col=null;return s.slice(Math.floor(s.length*.3))}
+/* choose the ridge strength by leave-one-dot-out cross-validation, so 16 dots are not over-fitted */
+function bestLam(R,PX,PY){let bl=.1,be=1e9;for(const l of[.002,.02,.1,.5,2]){let e=0;for(let k=0;k<R.length;k++){const Xt=R.filter((_,i)=>i!==k),mx=fit(Xt,PX.filter((_,i)=>i!==k),l),my=fit(Xt,PY.filter((_,i)=>i!==k),l);e+=Math.hypot((pr(mx,R[k])-PX[k])*innerWidth,(pr(my,R[k])-PY[k])*innerHeight)}if(e<be){be=e;bl=l}}return bl}
+async function calibrate(){if(!stream||!lmk)return toast("Start the camera first (Camera step).");model=null;calibrating=true;testing=false;aborted=false;clear();$("co").hidden=false;render();await wait(800);
+const R=[],PX=[],PY=[],N=CP.length+TP.length;
+for(let i=0;i<CP.length&&!aborted;i++){const[px,py]=CP[i];let ok=false;for(let k=0;k<2&&!ok&&!aborted;k++){place(px,py,"Look at the dot ("+(i+1)+" of "+N+")",i);await wait(900);const s=await grab(S.cal*1000);
+if(s.length>=8){R.push(medRow(s));PX.push(px);PY.push(py);ok=true}else $("ct").textContent="Face or eyes were not seen. Look at the dot again."}
+if(!ok&&!aborted)return endCal("Calibration failed: your face or eyes were not seen well enough. Improve the light, keep both eyes visible, then try again.")}
 if(aborted)return endCal("Calibration cancelled.");
-const m={wx:ridge(X,Yx),wy:ridge(X,Yy)};let e=0,n=0;
-for(let i=0;i<TP.length&&!aborted;i++){const[px,py]=TP[i];place(px,py,"Test dot "+(i+1)+" of 3: look at it",13+i);await wait(700);col=[];await wait(1000);const s=col;col=null;s.forEach(f=>{e+=Math.hypot((clamp(dotp(m.wx,f))-px)*innerWidth,(clamp(dotp(m.wy,f))-py)*innerHeight);n++})}
-if(aborted)return endCal("Calibration cancelled.");if(n<10)return endCal("The test could not read your eyes. Please retry.");
-model=m;first=true;e/=n;endCal("Average error on the 3 test dots: about "+Math.round(e)+" px ("+Math.round(e/innerWidth*100)+"% of the screen width). "+(e<innerWidth*.12?"That is usable with large targets. Open the Dashboard to try it.":"That is high. Add light, sit still, and retry. Dwell clicking with the big buttons may still work."))}
-function endCal(t){col=null;calibrating=false;$("co").hidden=true;$("cres").textContent=t;toast(t);if(view!=="cal")go("cal");render()}
+const lam=bestLam(R,PX,PY);model={x:fit(R,PX,lam),y:fit(R,PY,lam)};first=true;calSize={w:innerWidth,h:innerHeight};stale=false;testing=true;const E=[];
+for(let i=0;i<TP.length&&!aborted;i++){const[px,py]=TP[i];place(px,py,"Test dot "+(i+1)+" of "+TP.length+": look at it. The ring shows where I think you are looking.",CP.length+i);await wait(900);const s=await grab(1000);
+if(s.length>=6){const mx=med(s.map(f=>pr(model.x,f))),my=med(s.map(f=>pr(model.y,f)));E.push(Math.hypot((clamp(mx)-px)*innerWidth,(clamp(my)-py)*innerHeight))}}
+testing=false;if(aborted)return endCal("Calibration cancelled.");if(E.length<3){model=null;return endCal("The test could not read your eyes. Please try again.")}
+calErr=med(E);endCal("Calibration done. Median error on 4 test dots that were not used for training: about "+Math.round(calErr)+" px ("+Math.round(calErr/innerWidth*100)+"% of the screen width). "+(calErr<innerWidth*.1?"Good: large buttons should work.":calErr<innerWidth*.18?"Fair: it should work with big buttons and a longer dwell time.":"Poor: add light, sit still, keep your head steady, then try again."))}
+function endCal(t){col=null;calibrating=false;testing=false;$("co").hidden=true;$("cres").textContent=t;toast(t);if(view!=="cal")go("cal");render()}
+window.addEventListener("resize",()=>{if(model&&calSize&&(Math.abs(innerWidth-calSize.w)>40||Math.abs(innerHeight-calSize.h)>40)){stale=true;toast("The window size changed. Press Recalibrate for best accuracy.");render()}});
 $("calgo").onclick=calibrate;$("cc").onclick=()=>{aborted=true};$("fp-cal").onclick=()=>{go("cal");calibrate()};$("d-cal").onclick=$("fp-cal").onclick;
 /* ===== pause, stop, shortcuts ===== */
 function togglePause(){if(!stream)return toast("The camera is off.");paused=!paused;clear();toast(paused?"Paused. Resume with the Resume button, the mouse, or the P key.":"Resumed.");render()}
@@ -222,6 +259,33 @@ $("w-home").onclick=()=>{out("Home");go("welcome")};$("w-dash").onclick=()=>{out
 $("w-next").onclick=()=>{pg=Math.min(PAGES.length-1,pg+1);rd();out("Next")};$("w-back").onclick=()=>{pg=Math.max(0,pg-1);rd();out("Back")};
 const IT=["Item A","Item B","Item C","Item D"];IT.forEach(n=>{const b=document.createElement("button");b.className="gt";b.textContent=n;b.setAttribute("aria-pressed","false");b.onclick=()=>{const on=b.getAttribute("aria-pressed")!=="true";b.setAttribute("aria-pressed",on);out(n+(on?" selected":" unselected"))};$("items").appendChild(b)});
 let si=0;$("w-sel").onclick=()=>{$("items").children[si++%4].click()};
+/* ===== guided steps ===== */
+const ST=["Welcome","Camera","Position","Calibrate","Test","Method","Live demo"],FL=["welcome","setup","cal","test","method","dash"],NX={setup:"Begin Calibration",cal:"Test My Cursor",test:"Continue",method:"Start Live Demo"};
+function flowbar(){const v=view==="work"?"dash":view,ix=FL.indexOf(v),i=v==="welcome"?0:v==="setup"?(stream&&lmk?2:1):v==="cal"?3:v==="test"?4:v==="method"?5:v==="dash"?6:-1,f=$("flow");f.hidden=i<0;if(i<0)return;
+const ok=v==="setup"?!!(stream&&lmk):v==="cal"?!!model:true,sig=v+i+ok;if(sig===fsig)return;fsig=sig;$("sp").value=i+1;
+$("steps").innerHTML=ST.map((n,k)=>"<li"+(k===i?' aria-current="step"':"")+(k<i?' class="dn"':"")+">"+(k+1)+". "+n+"</li>").join("");
+const nx=FL[ix+1],pv=FL[ix-1];$("fbar").innerHTML=(v!=="welcome"&&ix>0?'<button class="o" data-go="'+pv+'">Back</button>':"")+(nx&&v!=="welcome"?'<button data-go="'+nx+'"'+(ok?"":" disabled")+">"+NX[v]+"</button>":"")+(v!=="welcome"?'<button class="o" data-go="help">Open Help</button>':"")}
+let tdone=0;$$(".t").forEach(b=>b.onclick=()=>{if(b.dataset.ok)return;b.dataset.ok=1;b.textContent="\u2713 "+b.dataset.l;tdone++;$("tres").textContent=tdone+" of 5 targets reached."+(tdone>=5?" Great! Press Continue.":"")});
+$$(".dw").forEach(b=>b.onclick=()=>{S.dwell=+b.dataset.d;applyS();toast("Dwell time: "+S.dwell+" seconds")});
+$("s-snd").onchange=e=>{S.sound=e.target.checked;applyS()};$("s-spk").onchange=e=>{S.speak=e.target.checked;applyS()};
+video.addEventListener("loadedmetadata",fitCam);
+/* ===== "Hey Cursor" voice assistant (browser speech recognition; only while this page is open and visible) ===== */
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;let vrec=null,vOn=false,vMute=false,awakeUntil=0;
+function vui(){$("vs").textContent=!SR?"Voice is not supported in this browser (use Chrome or Edge). Everything else still works.":!vOn?"Voice assistant is off. The microphone is not in use.":vMute?"Muted. The microphone is off.":'Listening for "Hey Cursor". The microphone is on.';$("v-on").setAttribute("aria-pressed",vOn);$("v-on").textContent=vOn?"Disable voice":"Enable voice";$("v-mute").textContent=vMute?"Unmute":"Mute";$("v-mute").disabled=!vOn}
+function vsay(m){$("vr").textContent=m;if(S.speak)try{speechSynthesis.cancel();speechSynthesis.speak(new SpeechSynthesisUtterance(m))}catch(e){}}
+function vmic(on){if(!on){if(vrec){vrec.onend=null;try{vrec.stop()}catch(e){}vrec=null}return}
+vrec=new SR();vrec.continuous=true;vrec.lang="en-IN";vrec.onresult=e=>{for(let i=e.resultIndex;i<e.results.length;i++)if(e.results[i].isFinal)vcmd(e.results[i][0].transcript)};
+vrec.onend=()=>{if(vOn&&!vMute)try{vrec.start()}catch(x){}};vrec.onerror=e=>{if(/not-allowed|service-not-allowed/.test(e.error)){vOn=false;vmic(false);vsay("Microphone permission was denied. Allow it in the address bar to use voice.");vui()}};try{vrec.start()}catch(x){}}
+$("v-on").onclick=()=>{if(!SR)return vui();vOn=!vOn;vMute=false;vmic(vOn);vui();if(vOn)vsay('Say "Hey Cursor" to wake me.')};
+$("v-mute").onclick=()=>{vMute=!vMute;vmic(!vMute);vui()};
+function vcmd(raw){const t=raw.toLowerCase().replace(/[.,!?]/g," ").replace(/\s+/g," ").trim(),now=Date.now();let c=t;
+if(/(hey|hi|a) cursor/.test(t)){awakeUntil=now+10000;c=t.replace(/^.*(hey|hi|a) cursor\s*/,"");vsay("Hi! I'm here. What would you like to do?");if(!c)return}else if(now>awakeUntil)return;
+const ask=()=>vsay("Please press Start Camera once, so your browser can ask for permission.");
+if(/^(start tracking|start camera)/.test(c)){if(stream)return vsay("Tracking is already on.");(navigator.permissions?navigator.permissions.query({name:"camera"}):Promise.reject()).then(p=>p.state==="granted"?startCamera():ask()).catch(ask)}
+else if(/pause tracking/.test(c)){if(!paused)togglePause();vsay("Tracking paused.")}else if(/resume tracking/.test(c)){if(paused)togglePause();vsay("Tracking resumed.")}
+else if(/start calibration/.test(c)){go("cal");calibrate()}else if(/dwell/.test(c)){S.method="dwell";applyS();vsay("Dwell clicking is on.")}else if(/blink/.test(c)){S.method="blink";applyS();vsay("Double-blink clicking is on.")}
+else if(/open help/.test(c)){go("help");vsay("Opening help.")}else if(/stop camera/.test(c)){stopCamera();vsay("Camera stopped.")}else vsay('I did not understand "'+c+'". Try: pause tracking, start calibration, open help.')}
+vui();
 applyS();render();
 </script>
 </body>
