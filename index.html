@@ -6,7 +6,6 @@
 <title>Able Cursor: Your computer. Your control.</title>
 <meta name="description" content="Able Cursor: free hands-free computer control using gaze, voice and scanning on a normal webcam. Built for people with cerebral palsy, ALS and spinal cord injury.">
 <meta property="og:title" content="Able Cursor: hands-free computer control"><meta property="og:type" content="website">
-<link rel="canonical" href="https://YOURUSERNAME.github.io/able-cursor/">
 <style>
 /* ---------- tokens and settings classes ---------- */
 :root{--bg:#fdfcfb;--fg:#1a1a2e;--mut:#3d3d55;--card:#fff;--line:#cfdad6;--sky:#4fc3f7;--tq:#3ec8c8;--co:#ff7f6e;--sun:#ffd166;--lav:#c7b8f0;--mint:#c2f0d8;--btn:#1f6468;--btnfg:#fff;--sh:0 10px 30px rgba(26,26,46,.1)}
@@ -70,7 +69,7 @@ footer{background:#1a1a2e;color:#fff;padding:2.5rem 0}footer a{color:#ffd166}foo
 <a class="skip" href="#main">Skip to main content</a>
 <header><div class="w">
 <a class="logo" href="#top" aria-label="Able Cursor home"><svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#4fc3f7"/><circle cx="24" cy="16" r="9" fill="#ffd166" stroke="#1a1a2e" stroke-width="2.5"/><path d="M11 9l4 21 4-8 8-3z" fill="#1a1a2e" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg>Able Cursor</a>
-<nav aria-label="Main"><ul><li><a href="#how">How it works</a></li><li><a href="#demo">Demo</a></li><li><a href="#settings">Accessibility</a></li><li><a href="#about">About</a></li><li><a href="#contact">Feedback</a></li></ul></nav>
+<nav aria-label="Main"><ul><li><a href="#how">How it works</a></li><li><a href="#demo">Demo</a></li><li><a href="#settings">Accessibility</a></li><li><a href="#standards">Standards</a></li><li><a href="#about">About</a></li><li><a href="#contact">Feedback</a></li></ul></nav>
 </div></header>
 <main id="main">
 <section id="top"><div class="w hero">
@@ -154,6 +153,21 @@ footer{background:#1a1a2e;color:#fff;padding:2.5rem 0}footer a{color:#ffd166}foo
 <article class="card c4"><h3>Why affordable matters</h3><p>Assistive technology should not be a luxury. Able Cursor aims to use the webcam and microphone a person already has. It is a prototype, and it will not work for every person or every disability.</p></article>
 </div></div></section>
 
+<section id="standards" aria-labelledby="sth"><div class="w">
+<h2 id="sth">Indian Standards (BIS) and accessibility</h2>
+<p>Able Cursor is designed with reference to <strong>IS 17802 (Part 1):2021</strong>, <em>Accessibility for the ICT Products and Services, Part 1: Requirements</em>. This is the Bureau of Indian Standards' technical adoption of the European standard EN 301 549 v3.2.1. The Rights of Persons with Disabilities Rules, as amended in 2023, name IS 17802 (Parts 1 and 2) as the standards for websites and applications. Part 2 (<strong>IS 17802 (Part 2):2022</strong>) describes how to determine conformance, and we used its approach for a self-check.</p>
+<p><strong>Honest status:</strong> this is a self-assessment by students. It has not been audited or certified, and we do not claim full conformance.</p>
+<div class="g">
+<article class="card c3"><h3>Limited manipulation or strength</h3><p>The core aim. Gaze, dwell, double blink, scanning, a single key and voice all work without a mouse or fine hand control. Mouse and keyboard still work for helpers.</p></article>
+<article class="card c3"><h3>Limited cognition or learning</h3><p>Step-by-step onboarding, plain-language mode, consistent control positions, large buttons and a confirm step before risky actions.</p></article>
+<article class="card c3"><h3>Vision and colour</h3><p>Three text sizes, high-contrast mode, visible focus outlines, no reliance on colour alone, and live status text for screen readers.</p></article>
+<article class="card c3"><h3>Motion and seizures</h3><p>A reduce-motion setting turns animations off. Animations here are slow and nothing is designed to flash.</p></article>
+<article class="card c3"><h3>Privacy</h3><p>Camera frames are processed on the device and never uploaded. Camera and microphone start only after explicit consent. Note: Chrome's speech recognition sends audio to Google.</p></article>
+<article class="card c3"><h3>Where we fall short</h3><p>Webcam gaze is imprecise, no user trial with people with disabilities has been done, no screen-reader audit has been carried out, and the demo section on this page is a labelled simulation.</p></article>
+</div>
+<p>Source: <a href="https://www.bis.gov.in/">Bureau of Indian Standards</a>. A free copy of IS 17802 (Part 1) is available from the BIS portal.</p>
+</div></section>
+
 <section id="contact" aria-labelledby="fh"><div class="w" style="max-width:42rem">
 <h2 id="fh">Feedback</h2>
 <p><strong>This form is a local demo. Nothing you type is sent anywhere.</strong></p>
@@ -167,7 +181,7 @@ footer{background:#1a1a2e;color:#fff;padding:2.5rem 0}footer a{color:#ffd166}foo
 <div id="ok" class="pan" tabindex="-1" hidden><h3>Thank you!</h3><p>This was a demo, so your message was not sent anywhere.</p><button class="btn o" id="again">Write another</button></div>
 </div></section>
 </main>
-<footer><div class="w"><a class="logo" href="#top">Able Cursor</a><p>The mind was never the problem. The interface was.</p><p>A hackathon prototype from MISSION'26 Experto Innovatum, VIT Chennai. Not a certified medical device. Built with MediaPipe, an open-source face tracker.</p><p><a href="app.html">Real tool</a> · <a href="#demo">Demo</a> · <a href="#settings">Accessibility</a> · <a href="#contact">Feedback</a></p></div></footer>
+<footer><div class="w"><a class="logo" href="#top">Able Cursor</a><p>The mind was never the problem. The interface was.</p><p>A hackathon prototype from MISSION'26 Experto Innovatum, VIT Chennai. Not a certified medical device. Built with MediaPipe, an open-source face tracker.</p><p><a href="app.html">Real tool</a> · <a href="#demo">Demo</a> · <a href="#settings">Accessibility</a> · <a href="#standards">Standards</a> · <a href="#contact">Feedback</a></p></div></footer>
 
 <script>
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
