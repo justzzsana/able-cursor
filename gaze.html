@@ -128,7 +128,7 @@ $("reset-ob").onclick=()=>ask("Reset onboarding and clear saved settings?",()=>{
 /* ===== tracker state ===== */
 const VIS="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/vision_bundle.mjs",WASM="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm",MODEL="https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task";
 const video=$("v"),cv=$("cv"),cx=cv.getContext("2d"),gc=$("gc"),lc=document.createElement("canvas");lc.width=16;lc.height=12;
-let lmk=null,stream=null,model=null,tracking=false,paused=false,calibrating=false,aborted=false,faceOK=false,eyesOpen=false,lastSeen=0,warm=0,tok=0,host=window,pip=null,col=null,err="",dark=false,lastLum=0;
+let loading=false,lmk=null,stream=null,model=null,tracking=false,paused=false,calibrating=false,aborted=false,faceOK=false,eyesOpen=false,lastSeen=0,warm=0,tok=0,host=window,pip=null,col=null,err="",dark=false,lastLum=0;
 let pos={x:.5,y:.5},first=true,cur=null,since=0,lockedEl=null,lockUntil=0,lastT=null,closedAt=0,blinks=[];
 const clamp=v=>Math.max(0,Math.min(.999,v)),dotp=(w,f)=>w.reduce((s,v,i)=>s+v*f[i],0);
 /* gaze features: iris position in each eye, head pose proxies, face centre and size */
@@ -139,7 +139,7 @@ function ridge(X,Y){const n=X[0].length,M=[];for(let i=0;i<n;i++){M.push(Array(n
 for(let i=0;i<n;i++){let p=i;for(let r=i+1;r<n;r++)if(Math.abs(M[r][i])>Math.abs(M[p][i]))p=r;[M[i],M[p]]=[M[p],M[i]];for(let r=0;r<n;r++)if(r!==i){const f=M[r][i]/M[i][i];for(let c=i;c<=n;c++)M[r][c]-=f*M[i][c]}}return M.map((r,i)=>r[n]/r[i])}
 /* ===== status ===== */
 function active(){return tracking&&model&&!paused&&!calibrating&&faceOK}
-function msg(){if(err)return err;if(!stream)return"Tracking unavailable: camera is off.";if(paused)return"Tracking paused.";if(calibrating)return"Calibrating.";if(!faceOK)return"Camera ready. No face found: move into view and add light in front of you.";if(!eyesOpen)return"Face detected. Eyes not detected (closed or hidden).";if(!model)return"Eyes detected. Not calibrated yet: go to Calibrate.";return dark?"Tracking active, but the room looks dark. Add light.":"Tracking active."}
+function msg(){if(err)return err;if(loading)return"Working: asking for the camera or loading the tracker. Please wait.";if(!stream)return"Tracking unavailable: camera is off.";if(paused)return"Tracking paused.";if(calibrating)return"Calibrating.";if(!faceOK)return"Camera ready. No face found: move into view and add light in front of you.";if(!eyesOpen)return"Face detected. Eyes not detected (closed or hidden).";if(!model)return"Eyes detected. Not calibrated yet: go to Calibrate.";return dark?"Tracking active, but the room looks dark. Add light.":"Tracking active."}
 function render(){const m=msg(),c="Camera: "+(stream?"on":"off")+" · Face: "+(faceOK?"yes":"no")+" · Eyes: "+(faceOK&&eyesOpen?"yes":"no")+" · Calibration: "+(model?"done":"not done")+" · Clicking: "+(S.method==="dwell"?"dwell":"double blink");
 $("ss").textContent=m;$("ss2").textContent=m;$("chips").textContent=c;$("chips2").textContent=c;$("cerr").textContent=err;
 $("cam-ind").textContent=stream?(paused?"● Camera on, paused":"● Camera on"):"Camera off";
@@ -149,9 +149,16 @@ gc.style.display=active()?"block":"none"}
 /* ===== camera and model, with clear errors ===== */
 async function loadModel(){try{const m=await import(VIS),fs=await m.FilesetResolver.forVisionTasks(WASM),mk=d=>m.FaceLandmarker.createFromOptions(fs,{baseOptions:{modelAssetPath:MODEL,delegate:d},runningMode:"VIDEO",numFaces:1,outputFaceBlendshapes:true});
 try{lmk=await mk("GPU")}catch(e){lmk=await mk("CPU")}}catch(e){const x=new Error("The tracker could not be loaded. Check your internet connection and press Start camera again.");x.name="TrackerLoad";throw x}}
-async function startCamera(){err="";let done=null;try{done=localStorage.getItem("ac-onboarded")}catch(e){}if(!agree&&!done){toast("Please read and accept the welcome screen first. The camera stays off until then.");go("welcome");return}if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){err="This browser cannot use the camera here. Use a current Chrome or Edge, on https or localhost.";return render()}
-if(stream)return;try{toast("Loading the tracker (about 10 MB the first time)...");if(!lmk)await loadModel();stream=await navigator.mediaDevices.getUserMedia({video:{width:640,height:480,facingMode:"user"}});video.srcObject=stream;await video.play();tracking=true;paused=false;toast("Camera on. Next: calibrate.");loop()}
-catch(e){stream=null;tracking=false;err=e.name==="NotAllowedError"?"Camera permission was denied. Click the camera icon in the address bar, allow it, then press Start camera.":e.name==="NotFoundError"?"No camera was found. Plug one in and press Start camera.":e.name==="TrackerLoad"?e.message:"Could not start the camera: "+(e.message||e.name)}render()}
+const withTimeout=(p,ms)=>Promise.race([p,new Promise((_,r)=>setTimeout(()=>{const x=new Error("The tracker took too long to load. The network may be slow or blocking it. Try a phone hotspot, then press Start camera again.");x.name="TrackerLoad";r(x)},ms))]);
+async function startCamera(){err="";let done=null;try{done=localStorage.getItem("ac-onboarded")}catch(e){}if(!agree&&!done){toast("Please read and accept the welcome screen first. The camera stays off until then.");go("welcome");return}
+if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){err="This browser cannot use the camera here. Use a current Chrome or Edge, on https or localhost.";return render()}
+if(loading||(stream&&lmk))return;loading=true;render();
+try{if(!stream){toast("Asking for camera permission. Click Allow in the box near the address bar.");stream=await navigator.mediaDevices.getUserMedia({video:{width:640,height:480,facingMode:"user"}});video.srcObject=stream;await video.play();render()}
+if(!lmk){toast("Camera is on. Loading the tracker (about 10 MB). This can take up to a minute on slow Wi-Fi.");await withTimeout(loadModel(),60000)}
+tracking=true;paused=false;toast("Camera and tracker are on. Next: calibrate.");loop()}
+catch(e){if(e.name!=="TrackerLoad"){if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;video.srcObject=null}tracking=false;
+err=e.name==="NotAllowedError"?"Camera permission was denied. Click the camera icon in the address bar, allow it, then press Start camera.":e.name==="NotFoundError"?"No camera was found. Plug one in and press Start camera.":e.name==="NotReadableError"?"The camera is busy. Close Zoom, Teams or the Camera app, then press Start camera.":e.name==="TrackerLoad"?e.message:"Could not start the camera: "+(e.message||e.name)}
+loading=false;render()}
 function stopCamera(){tok++;if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;video.srcObject=null;tracking=false;faceOK=false;eyesOpen=false;calibrating=false;aborted=true;$("co").hidden=true;clear();cx.clearRect(0,0,640,480);toast("Stopped. The camera is off.");render()}
 $("cam-on").onclick=startCamera;$("cam-off").onclick=stopCamera;
 /* ===== frame loop (runs in the pop-out window's timer when it is open, so it is not throttled) ===== */
